@@ -251,7 +251,7 @@ def requests(
     Get requests
     """
     req_dict = asyncio.run(get_requests(requests_type))
-    typer_output_dict(req_dict, output_json, pretty_print)
+    typer_output_dict(req_dict, output_json, pretty_print, rich_print)
 
 
 async def kill_request(request_id: int):
@@ -323,7 +323,7 @@ def events(
     Get events
     """
     events_dict = asyncio.run(get_events())
-    typer_output_dict(events_dict, output_json, pretty_print)
+    typer_output_dict(events_dict, output_json, pretty_print, rich_print)
 
 
 async def get_rules():
@@ -349,7 +349,7 @@ def rules(
     Get rules
     """
     rules_dict = asyncio.run(get_rules())
-    typer_output_dict(rules_dict, output_json, pretty_print)
+    typer_output_dict(rules_dict, output_json, pretty_print, rich_print)
 
 
 async def get_traffic():
@@ -375,7 +375,7 @@ def traffic(
     Get traffic
     """
     traffic_dict = asyncio.run(get_traffic())
-    typer_output_dict(traffic_dict, output_json, pretty_print)
+    typer_output_dict(traffic_dict, output_json, pretty_print, rich_print)
 
 
 async def set_log_level(log_level: LogLevel):
