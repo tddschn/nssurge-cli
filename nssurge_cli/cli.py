@@ -85,6 +85,52 @@ def caps():
 		typer.secho(f"{capability:>{length}}: {state_colored}")
 
 
+async def get_set_outbound(outbound_mode: OutboundMode = typer.Argument(None)) -> OutboundMode:
+	"""
+	Get or set the outbound mode.
+	"""
+	async with SurgeAPIClient(*get_creds()) as client:
+		if outbound_mode is not None:
+			set_resp = await client.set_outbound_mode(outbound_mode)
+		new_outbound_mode = (await (await client.get_outbound_mode()).json())['mode']
+		if outbound_mode is not None:
+			typer.secho(f"Set outbound mode to {new_outbound_mode}")
+		else:
+			typer.secho(f"Current outbound mode: {new_outbound_mode}")
+		return OutboundMode[new_outbound_mode]
+
+@app.command('outbound')
+def outbound(outbound_mode: OutboundMode = typer.Argument(None)):
+	"""
+	Get or set the outbound mode.
+	"""
+	asyncio.run(get_set_outbound(outbound_mode))
+
+async def get_set_global_policy(policy: Policy = typer.Argument(None)) -> Policy:
+	"""
+	Get or set the global policy.
+	"""
+	async with SurgeAPIClient(*get_creds()) as client:
+		if policy is not None:
+			set_resp = await client.set_global_policy(policy)
+			set_dict: dict = await set_resp.json()
+			if 'error' in set_dict:
+				typer.secho(f'Failed to set policy {policy}: {set_dict["error"]}', fg=typer.colors.RED)
+				raise typer.Exit(1)
+		current_policy = (await (await client.get_global_policy()).json())['policy']
+		if policy is not None:
+			typer.secho(f"Set global policy to {current_policy}")
+		else:
+			typer.secho(f"Current global policy: {current_policy}")
+		return current_policy
+
+@app.command('global')
+def global_command(policy: Policy = typer.Argument(None)):
+	"""
+	Get or set the global policy.
+	"""
+	asyncio.run(get_set_global_policy(policy))
+	typer.secho(f'Warning: the get API is broken on the Surge side')
 
 if __name__ == '__main__':
 	app()
