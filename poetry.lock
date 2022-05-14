@@ -142,7 +142,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "nssurge-api"
-version = "0.2.4"
+version = "0.2.5"
 description = ""
 category = "main"
 optional = false
@@ -287,7 +287,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "2d99d6ad745c36bf260e5a145f4bec32359bd51772ff9a3da5bc24a26dc58abd"
+content-hash = "edd52739ed79ec4820d68e05e8894db70ba0d83156930e86eac1cf1db427f1bf"
 
 [metadata.files]
 aiohttp = [
@@ -532,8 +532,8 @@ multidict = [
     {file = "multidict-6.0.2.tar.gz", hash = "sha256:5ff3bd75f38e4c43f1f470f2df7a4d430b821c4ce22be384e1459cb57d6bb013"},
 ]
 nssurge-api = [
-    {file = "nssurge-api-0.2.4.tar.gz", hash = "sha256:50f162a795b11c744587427c2a6d9c80a66fc070697d1d7fee7af47130608a60"},
-    {file = "nssurge_api-0.2.4-py3-none-any.whl", hash = "sha256:9ee939e8e5a69f29ac2c41afdad5a1cddcdd8834ba8d30f80e89a7404c7b501d"},
+    {file = "nssurge-api-0.2.5.tar.gz", hash = "sha256:2e1b1fb57b1f6c19dccfca3b5c23e7cf6e3b358065d4993e5eebe458f4edbbea"},
+    {file = "nssurge_api-0.2.5-py3-none-any.whl", hash = "sha256:10f55f05efbcb41821f8b0aeb1cb041aeef272f147be1d62b7951f90b170baf2"},
 ]
 packaging = [
     {file = "packaging-21.3-py3-none-any.whl", hash = "sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522"},
