@@ -125,6 +125,17 @@ optional = false
 python-versions = ">=3.5"
 
 [[package]]
+name = "logging-utils-tddschn"
+version = "0.1.8"
+description = "Logging utilities for personal use."
+category = "dev"
+optional = false
+python-versions = ">=3.10,<4.0"
+
+[package.dependencies]
+utils-tddschn = ">=0.1.4,<0.2.0"
+
+[[package]]
 name = "more-itertools"
 version = "8.13.0"
 description = "More routines for operating on iterables, beyond itertools"
@@ -142,7 +153,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "nssurge-api"
-version = "0.2.5"
+version = "0.2.6"
 description = ""
 category = "main"
 optional = false
@@ -287,7 +298,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "edd52739ed79ec4820d68e05e8894db70ba0d83156930e86eac1cf1db427f1bf"
+content-hash = "0aa477f841d82d602a8af683ed2d6fb26af39abe82ac06df87d2bec915ac9775"
 
 [metadata.files]
 aiohttp = [
@@ -466,6 +477,10 @@ idna = [
     {file = "idna-3.3-py3-none-any.whl", hash = "sha256:84d9dd047ffa80596e0f246e2eab0b391788b0503584e8945f2368256d2735ff"},
     {file = "idna-3.3.tar.gz", hash = "sha256:9d643ff0a55b762d5cdb124b8eaa99c66322e2157b69160bc32796e824360e6d"},
 ]
+logging-utils-tddschn = [
+    {file = "logging-utils-tddschn-0.1.8.tar.gz", hash = "sha256:fb6ba94645ff4ccda264534cae9d2e7502c00c022bdf3ffb6684bffd732bccdd"},
+    {file = "logging_utils_tddschn-0.1.8-py3-none-any.whl", hash = "sha256:8b96903320cddaf4f31a03f5e07e34be5cd2b7b21415743607c3cc47f1fd5bb1"},
+]
 more-itertools = [
     {file = "more-itertools-8.13.0.tar.gz", hash = "sha256:a42901a0a5b169d925f6f217cd5a190e32ef54360905b9c39ee7db5313bfec0f"},
     {file = "more_itertools-8.13.0-py3-none-any.whl", hash = "sha256:c5122bffc5f104d37c1626b8615b511f3427aa5389b94d61e5ef8236bfbc3ddb"},
@@ -532,8 +547,8 @@ multidict = [
     {file = "multidict-6.0.2.tar.gz", hash = "sha256:5ff3bd75f38e4c43f1f470f2df7a4d430b821c4ce22be384e1459cb57d6bb013"},
 ]
 nssurge-api = [
-    {file = "nssurge-api-0.2.5.tar.gz", hash = "sha256:2e1b1fb57b1f6c19dccfca3b5c23e7cf6e3b358065d4993e5eebe458f4edbbea"},
-    {file = "nssurge_api-0.2.5-py3-none-any.whl", hash = "sha256:10f55f05efbcb41821f8b0aeb1cb041aeef272f147be1d62b7951f90b170baf2"},
+    {file = "nssurge-api-0.2.6.tar.gz", hash = "sha256:c0dc93279c2c72fd7ee68162baab9028b965eab575121a7cc2f6a73394d34136"},
+    {file = "nssurge_api-0.2.6-py3-none-any.whl", hash = "sha256:28c120a3ff2c004a5ee69a663498b5ca6b890b6cb868b02202ba9c19038ffeb1"},
 ]
 packaging = [
     {file = "packaging-21.3-py3-none-any.whl", hash = "sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522"},

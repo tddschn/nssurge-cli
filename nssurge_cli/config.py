@@ -70,3 +70,9 @@ def show_config(config_path: Path = DEFAULT_CONFIG_PATH):
     config = read_config(config_path)
     typer.echo(f"SURGE_HTTP_API_ENDPOINT: {config['SURGE_HTTP_API_ENDPOINT']}")
     typer.echo(f"SURGE_HTTP_API_KEY: {config['SURGE_HTTP_API_KEY']}")
+
+def get_creds() -> tuple[str, str]:
+	config_dict = read_config()
+	SURGE_HTTP_API_ENDPOINT = config_dict["SURGE_HTTP_API_ENDPOINT"]
+	SURGE_HTTP_API_KEY = config_dict["SURGE_HTTP_API_KEY"]
+	return SURGE_HTTP_API_ENDPOINT, SURGE_HTTP_API_KEY

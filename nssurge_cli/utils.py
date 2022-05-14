@@ -32,3 +32,14 @@ def use_local_nssurge_api_module():
     import sys
     sys.path.insert(0, str(Path.home() / 'testdir' / 'nssurge-api'))
     print(sys.path)
+
+def typer_output_dict(d: dict, output_json: bool = False, pretty_print: bool = False) -> None:
+	if output_json:
+		import json
+		typer.secho(json.dumps(d, indent=2))
+	elif pretty_print:
+		from pprint import PrettyPrinter
+		pp = PrettyPrinter(indent=2)
+		typer.secho(pp.pformat(d))
+	else:
+		typer.secho(d)
