@@ -17,3 +17,15 @@ import asyncio
 from aiohttp import ClientSession, ClientResponse
 
 app = typer.Typer(name='modules')
+
+async def get_modules():
+    async with SurgeAPIClient(*get_creds()) as client:
+        modules = await client.get_modules()
+        return await modules.json()
+
+@app.callback()
+def get_modules_command():
+    modules = asyncio.run(get_modules())
+    typer_output_dict(modules)
+
+async def set_modules()
