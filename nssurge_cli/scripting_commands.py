@@ -35,3 +35,5 @@ async def eval_script_mock(**kwargs):
         eval_script_mock_resp = await client.eval_script_mock(req)
         return await eval_script_mock_resp.json()
 
+# todo: add eval-mock and eval-cron commands
+# i don't use them so i'll leave them unimplemented for now
