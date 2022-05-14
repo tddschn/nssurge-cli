@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from pathlib import Path
 import typer
 from aiohttp import ClientSession, ClientResponse
 from nssurge_api import SurgeAPIClient
@@ -26,3 +27,8 @@ def bool2color(state: bool) -> str:
     else:
         color = typer.colors.RED
     return color
+
+def use_local_nssurge_api_module():
+    import sys
+    sys.path.insert(0, str(Path.home() / 'testdir' / 'nssurge-api'))
+    print(sys.path)

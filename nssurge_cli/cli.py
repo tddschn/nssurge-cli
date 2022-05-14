@@ -1,14 +1,15 @@
 from . import __version__, __app_name__
 from .config import read_config, app as config_app
 from .types import (OnOffToggleEnum)
-from .utils import (bool2color, parse_cap_get, get_cap_state)
+from .utils import (bool2color, parse_cap_get, get_cap_state, use_local_nssurge_api_module)
 from utils_tddschn.utils import strtobool
+# use_local_nssurge_api_module()
 from nssurge_api import SurgeAPIClient
 from nssurge_api.types import (Capability, LogLevel, OutboundMode, Policy,
 							   PolicyGroup, RequestsType, Profile, Enabled,
 							   SetModuleStateRequest, EvalScriptMockRequest,
 							   EvalCronScriptRequest, Script,
-							   ChangeDeviceRequest)
+							   ChangeDeviceRequest) #, Policies)
 import typer
 import asyncio
 from aiohttp import ClientSession, ClientResponse
@@ -131,6 +132,31 @@ def global_command(policy: Policy = typer.Argument(None)):
 	"""
 	asyncio.run(get_set_global_policy(policy))
 	typer.secho(f'Warning: the get API is broken on the Surge side')
+
+async def get_policies():
+	"""
+	Get all policies.
+	"""
+	async with SurgeAPIClient(*get_creds()) as client:
+		# get policies concurrently
+		return await (await client.get_policy()).json()
+
+@app.command('policies')
+def policies(output_json: bool = typer.Option(False, '--json', '-j'), pretty_print: bool = typer.Option(False, '--pretty', '-p')):
+	"""
+	Get all policies.
+	"""
+	policies = asyncio.run(get_policies())
+	if output_json:
+		import json
+		typer.secho(json.dumps(policies, indent=2))
+	elif pretty_print:
+		from pprint import PrettyPrinter
+		pp = PrettyPrinter(indent=2)
+		typer.secho(pp.pformat(policies))
+	else:
+		typer.secho(policies)
+
 
 if __name__ == '__main__':
 	app()
