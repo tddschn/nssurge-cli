@@ -54,11 +54,15 @@ def cap(capability: Capability, on_off: OnOffToggleEnum = typer.Argument(None)):
 	"""
 	states = asyncio.run(get_set_cap(capability, on_off))
 	if isinstance(states, bool):
-		typer.secho(f"Capability {capability}: {states}")
-	elif on_off == OnOffToggleEnum.toggle:
-		typer.secho(f"Toggled capability {capability}: {states[0]} -> {states[1]}")
+		state_colored = typer.style(f"{states}", fg=bool2color(states))
+		typer.secho(f"Capability {capability}: {state_colored}")
+		# raise typer.Exit()
 	else:
-		typer.secho(f"Set capability {capability}: {states[0]} -> {states[1]}")
+		states_colored = [typer.style(f'{state}', fg=bool2color(state)) for state in states]
+		if on_off == OnOffToggleEnum.toggle:
+			typer.secho(f"Toggled capability {capability}: {states_colored[0]} -> {states_colored[1]}")
+		else:
+			typer.secho(f"Set capability {capability}: {states_colored[0]} -> {states_colored[1]}")
 
 
 async def get_caps() -> dict[str, bool]:
