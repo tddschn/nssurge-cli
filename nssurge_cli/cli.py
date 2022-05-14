@@ -193,13 +193,13 @@ def policy(
     policy: Policy,
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
-	rich_print: bool = typer.Option(False, "--rich", "-r"),
+    rich_print: bool = typer.Option(False, "--rich", "-r"),
 ):
     """
     Get all policies, or a specific policy.
     """
     policy_dict = asyncio.run(get_policy(policy))
-    typer_output_dict(policy_dict, output_json, pretty_print, rich_print) # type: ignore
+    typer_output_dict(policy_dict, output_json, pretty_print, rich_print)  # type: ignore
 
 
 async def test_proxies(policies: list[Proxy], url: str | None = None) -> dict:
@@ -246,6 +246,7 @@ def requests(
     requests_type: RequestsType = RequestsType.recent,
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
+    rich_print: bool = typer.Option(False, "--rich", "-r"),
 ):
     """
     Get requests
@@ -318,6 +319,7 @@ async def get_events():
 def events(
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
+    rich_print: bool = typer.Option(False, "--rich", "-r"),
 ):
     """
     Get events
@@ -344,6 +346,7 @@ async def get_rules():
 def rules(
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
+    rich_print: bool = typer.Option(False, "--rich", "-r"),
 ):
     """
     Get rules
@@ -370,6 +373,7 @@ async def get_traffic():
 def traffic(
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
+    rich_print: bool = typer.Option(False, "--rich", "-r"),
 ):
     """
     Get traffic

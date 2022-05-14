@@ -51,6 +51,7 @@ def policy_group(
     policy_group: PolicyGroup,
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
+    rich_print: bool = typer.Option(False, "--rich", "-r"),
 ):
     """
     Get all policy groups, or a specific one.
@@ -71,6 +72,7 @@ async def get_policy_group_test_results() -> dict:
 def policy_group_test_results(
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
+    rich_print: bool = typer.Option(False, "--rich", "-r"),
 ):
     """
     Get all policy groups, or a specific one.
@@ -109,6 +111,7 @@ def test_policy_group_command(
     policy_group: PolicyGroup,
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
+    rich_print: bool = typer.Option(False, "--rich", "-r"),
 ):
     """
     Test a policy group.
