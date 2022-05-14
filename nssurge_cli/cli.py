@@ -193,12 +193,13 @@ def policy(
     policy: Policy,
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
+	rich_print: bool = typer.Option(False, "--rich", "-r"),
 ):
     """
     Get all policies, or a specific policy.
     """
     policy_dict = asyncio.run(get_policy(policy))
-    typer_output_dict(policy_dict, output_json, pretty_print)
+    typer_output_dict(policy_dict, output_json, pretty_print, rich_print) # type: ignore
 
 
 async def test_proxies(policies: list[Proxy], url: str | None = None) -> dict:

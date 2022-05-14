@@ -49,7 +49,7 @@ def use_local_nssurge_api_module():
 
 
 def typer_output_dict(
-    d: dict, output_json: bool = False, pretty_print: bool = False
+    d: dict, output_json: bool = False, pretty_print: bool = False, rich_print: bool = False
 ) -> None:
     if output_json:
         import json
@@ -60,5 +60,14 @@ def typer_output_dict(
 
         pp = PrettyPrinter(indent=2)
         typer.secho(pp.pformat(d))
+    elif rich_print:
+        try:
+            from rich import print as rprint
+            rprint(d)
+        except ImportError:
+            typer.secho("rich module not installed")
     else:
         typer.secho(d)
+
+# typer_output_dict_typer_options = (    output_json: bool = typer.Option(False, "--json", "-j"),
+#     pretty_print: bool = typer.Option(False, "--pretty", "-p"),)
