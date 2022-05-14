@@ -44,10 +44,14 @@ async def get_devices():
         return await devices_resp.json()
 
 
-@app.callback()
-def devices():
+@app.callback(invoke_without_command=True)
+def devices(
+    output_json: bool = typer.Option(False, "--json", "-j"),
+    pretty_print: bool = typer.Option(False, "--pretty", "-p"),
+    rich_print: bool = typer.Option(False, "--rich", "-r"),
+):
     devices_resp = asyncio.run(get_devices())
-    typer_output_dict(devices_resp)
+    typer_output_dict(devices_resp, output_json, pretty_print, rich_print)
 
 
 async def get_device_icon(icon_id):

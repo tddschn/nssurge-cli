@@ -5,6 +5,7 @@ from .profiles_commands import app as profiles_app
 from .dns_commands import app as dns_app
 from .modules_commands import app as modules_app
 from .scripting_commands import app as scripting_app
+from .devices_commands import app as devices_app
 from .types import OnOffToggleEnum
 from .utils import (
     bool2color,
@@ -45,6 +46,7 @@ app.add_typer(profiles_app)
 app.add_typer(dns_app)
 app.add_typer(modules_app)
 app.add_typer(scripting_app)
+app.add_typer(devices_app)
 
 
 def s2b(s: str) -> bool:

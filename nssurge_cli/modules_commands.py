@@ -44,7 +44,7 @@ async def get_modules():
         return await modules.json()
 
 
-@app.callback()
+@app.callback(invoke_without_command=True)
 def get_modules_command():
     modules = asyncio.run(get_modules())
     typer_output_dict(modules)

@@ -44,10 +44,11 @@ async def get_active_profile(mask_password: bool = True) -> dict:
         return await profile.json()
 
 
-@app.callback()
-def active_profile(mask_password: bool = True):
+@app.callback(invoke_without_command=True)
+def active_profile(mask_password: bool = True, output_json: bool = typer.Option(False, "--json", '-j'), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
+    """Get active profile"""
     profile = asyncio.run(get_active_profile(mask_password))
-    typer_output_dict(profile)
+    typer_output_dict(profile, output_json, pretty_print, rich_print)
 
 
 async def reload_profile():
@@ -77,9 +78,9 @@ async def list_profiles():
 
 
 @app.command("list")
-def list_profiles_command():
+def list_profiles_command(output_json: bool = typer.Option(False, "--json", '-j'), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
     profiles = asyncio.run(list_profiles())
-    typer_output_dict(profiles)
+    typer_output_dict(profiles, output_json, pretty_print, rich_print)
 
 
 async def validate_profile(profile_name: Profile):

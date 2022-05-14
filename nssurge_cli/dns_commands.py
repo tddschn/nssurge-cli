@@ -54,7 +54,7 @@ async def get_dns():
         return await dns.json()
 
 
-@app.callback()
+@app.callback(invoke_without_command=True)
 def get_dns_command():
     dns = asyncio.run(get_dns())
     typer_output_dict(dns)

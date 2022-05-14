@@ -44,8 +44,9 @@ async def get_scripts():
         return await scripting_resp.json()
 
 
-@app.callback()
+@app.callback(invoke_without_command=True)
 def scripts():
+    """Get all scripts"""
     scripts_resp = asyncio.run(get_scripts())
     typer_output_dict(scripts_resp)
 

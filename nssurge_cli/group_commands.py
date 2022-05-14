@@ -46,7 +46,7 @@ async def get_policy_group(policy_group: PolicyGroup = typer.Argument(None)) -> 
 
 
 # @app.command('group')
-@app.callback()
+@app.callback(invoke_without_command=True)
 def policy_group(
     policy_group: PolicyGroup,
     output_json: bool = typer.Option(False, "--json", "-j"),
