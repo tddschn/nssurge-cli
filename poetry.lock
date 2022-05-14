@@ -142,7 +142,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "nssurge-api"
-version = "0.2.1"
+version = "0.2.4"
 description = ""
 category = "main"
 optional = false
@@ -249,6 +249,14 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "utils-tddschn"
+version = "0.1.5"
+description = ""
+category = "main"
+optional = false
+python-versions = ">=3.10,<4.0"
+
+[[package]]
 name = "wcwidth"
 version = "0.2.5"
 description = "Measures the displayed width of unicode strings in a terminal"
@@ -279,7 +287,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "e13a3127913b514f1e6961d5a92fd885dc3c4fcd384d85c24db6f2ff228de175"
+content-hash = "2d99d6ad745c36bf260e5a145f4bec32359bd51772ff9a3da5bc24a26dc58abd"
 
 [metadata.files]
 aiohttp = [
@@ -524,8 +532,8 @@ multidict = [
     {file = "multidict-6.0.2.tar.gz", hash = "sha256:5ff3bd75f38e4c43f1f470f2df7a4d430b821c4ce22be384e1459cb57d6bb013"},
 ]
 nssurge-api = [
-    {file = "nssurge-api-0.2.1.tar.gz", hash = "sha256:63c26d222fe443d14c3564e0c8f6c0eaedec2686232aa9717fdb1bd56db2e421"},
-    {file = "nssurge_api-0.2.1-py3-none-any.whl", hash = "sha256:cb49fd3bf6e26bc261a1b892165a0d08e2fdcc83f18f117731dc7fe77b9e60cc"},
+    {file = "nssurge-api-0.2.4.tar.gz", hash = "sha256:50f162a795b11c744587427c2a6d9c80a66fc070697d1d7fee7af47130608a60"},
+    {file = "nssurge_api-0.2.4-py3-none-any.whl", hash = "sha256:9ee939e8e5a69f29ac2c41afdad5a1cddcdd8834ba8d30f80e89a7404c7b501d"},
 ]
 packaging = [
     {file = "packaging-21.3-py3-none-any.whl", hash = "sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522"},
@@ -558,6 +566,10 @@ typer = [
 typing-extensions = [
     {file = "typing_extensions-4.2.0-py3-none-any.whl", hash = "sha256:6657594ee297170d19f67d55c05852a874e7eb634f4f753dbd667855e07c1708"},
     {file = "typing_extensions-4.2.0.tar.gz", hash = "sha256:f1c24655a0da0d1b67f07e17a5e6b2a105894e6824b92096378bb3668ef02376"},
+]
+utils-tddschn = [
+    {file = "utils-tddschn-0.1.5.tar.gz", hash = "sha256:2a6160c9cefb9a695452de48e36d76b1ae01dfe3b36e2e9b7411bc2b1399dbf8"},
+    {file = "utils_tddschn-0.1.5-py3-none-any.whl", hash = "sha256:a758ef04369d6115d74a17f75999ec2b4714828eebdbaf1058604e13b02f3b8f"},
 ]
 wcwidth = [
     {file = "wcwidth-0.2.5-py2.py3-none-any.whl", hash = "sha256:beb4802a9cebb9144e99086eff703a642a13d6a0052920003a230f3294bbe784"},
