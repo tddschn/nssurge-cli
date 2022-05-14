@@ -16,16 +16,22 @@ import typer
 import asyncio
 from aiohttp import ClientSession, ClientResponse
 
-app = typer.Typer(name='modules')
 
-async def get_modules():
+app = typer.Typer(name='script')
+
+async def get_scripts():
     async with SurgeAPIClient(*get_creds()) as client:
-        modules = await client.get_modules()
-        return await modules.json()
+        scripting_resp = await client.get_scripts()
+        return await scripting_resp.json()
 
 @app.callback()
-def get_modules_command():
-    modules = asyncio.run(get_modules())
-    typer_output_dict(modules)
+def scripts():
+    scripts_resp = asyncio.run(get_scripts())
+    typer_output_dict(scripts_resp)
 
-# async def set_modules()
+async def eval_script_mock(**kwargs):
+    req = EvalScriptMockRequest(**kwargs)
+    async with SurgeAPIClient(*get_creds()) as client:
+        eval_script_mock_resp = await client.eval_script_mock(req)
+        return await eval_script_mock_resp.json()
+

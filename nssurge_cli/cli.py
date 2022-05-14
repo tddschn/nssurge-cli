@@ -4,6 +4,7 @@ from .group_commands import app as group_app
 from .profiles_commands import app as profiles_app
 from .dns_commands import app as dns_app
 from .modules_commands import app as modules_app
+from .scripting_commands import app as scripting_app
 from .types import (OnOffToggleEnum)
 from .utils import (bool2color, parse_cap_get, get_cap_state, typer_output_dict, use_local_nssurge_api_module)
 from utils_tddschn.utils import strtobool
@@ -24,6 +25,7 @@ app.add_typer(group_app)
 app.add_typer(profiles_app)
 app.add_typer(dns_app)
 app.add_typer(modules_app)
+app.add_typer(scripting_app)
 
 
 def s2b(s: str) -> bool:
