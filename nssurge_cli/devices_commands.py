@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from . import __version__, __app_name__, logger
-from .config import read_config, app as config_app, get_creds
+from .config import read_config, app as config_app, get_config
 from .types import OnOffToggleEnum, ChangeDeviceEnum
 from .utils import (
     bool2color,
@@ -39,7 +39,7 @@ app = typer.Typer(name="devices")
 
 
 async def get_devices():
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         devices_resp = await client.get_devices()
         return await devices_resp.json()
 
@@ -57,7 +57,7 @@ def devices(ctx: typer.Context,
 
 
 async def get_device_icon(icon_id):
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         icon_resp = await client.get_device_icon(icon_id)
         return await icon_resp.json()
 
@@ -70,7 +70,7 @@ def icon(icon_id, output_json: bool = typer.Option(False, "--json", "-j"), prett
 
 
 async def change_device(req: ChangeDeviceRequest):
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         resp = await client.change_device(req)
         return await resp.json()
 

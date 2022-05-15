@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from . import __version__, __app_name__, logger
-from .config import read_config, app as config_app, get_creds
+from .config import read_config, app as config_app, get_config
 from .types import OnOffToggleEnum
 from .utils import (
     bool2color,
@@ -41,7 +41,7 @@ async def get_policy_group(policy_group: PolicyGroup = typer.Argument(None)) -> 
     """
     Get all policy groups, or a specific one.
     """
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         return await (await client.get_policy_group(policy_group)).json()
 
 
@@ -66,7 +66,7 @@ async def get_policy_group_test_results() -> dict:
     """
     Get all policy groups, or a specific one.
     """
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         return await (await client.get_policy_group_test_results()).json()
 
 
@@ -87,7 +87,7 @@ async def select_group(policy_group: PolicyGroup, policy: Policy):
     """
     Select a policy group.
     """
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         return await client.set_policy_group(policy_group, policy)
 
 
@@ -103,7 +103,7 @@ async def test_policy_group(policy_group: PolicyGroup) -> dict:
     """
     Test a policy group.
     """
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         resp = await client.test_policy_group(policy_group)
         return await resp.json()
 

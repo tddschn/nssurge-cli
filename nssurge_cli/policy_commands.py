@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from . import __version__, __app_name__, logger
-from .config import read_config, app as config_app, get_creds
+from .config import read_config, app as config_app, get_config
 from .types import (OnOffToggleEnum)
 from .utils import (bool2color, parse_cap_get, get_cap_state, typer_output_dict, use_local_nssurge_api_module)
 from utils_tddschn.utils import strtobool
@@ -22,7 +22,7 @@ async def get_policy(policy: Policy = typer.Argument(None)) -> Policies | dict:
     """
     Get all policies.
     """
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         policy_dict = await (await client.get_policy(policy)).json()
         if policy is None:
             return policy_dict

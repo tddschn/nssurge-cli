@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from . import __version__, __app_name__, logger
-from .config import read_config, app as config_app, get_creds
+from .config import read_config, app as config_app, get_config
 from .types import (OnOffToggleEnum)
 from .utils import (bool2color, parse_cap_get, get_cap_state, typer_output_dict, use_local_nssurge_api_module)
 from utils_tddschn.utils import strtobool
@@ -23,7 +23,7 @@ async def get_set_outbound(
     """
     Get or set the outbound mode.
     """
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         if outbound_mode is not None:
             set_resp = await client.set_outbound_mode(outbound_mode)
         new_outbound_mode = (await (await client.get_outbound_mode()).json())["mode"]

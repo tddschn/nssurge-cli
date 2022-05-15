@@ -21,7 +21,7 @@ nsg = "nssurge_cli:cli.app"
 [tool.poetry.dependencies]
 python = "^3.10"
 typer = "^0.4.1"
-nssurge-api = "0.2.8"
+nssurge-api = "0.2.10"
 utils-tddschn = "^0.1.5"
 rich = {version = "^12.4.1", extras = ["format"]}
 

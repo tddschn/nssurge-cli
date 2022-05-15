@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from . import __version__, __app_name__, logger
-from .config import read_config, app as config_app, get_creds
+from .config import read_config, app as config_app, get_config
 from .types import OnOffToggleEnum
 from .utils import (
     bool2color,
@@ -39,7 +39,7 @@ app = typer.Typer(name="script")
 
 
 async def get_scripts():
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         scripting_resp = await client.get_scripts()
         return await scripting_resp.json()
 
@@ -55,7 +55,7 @@ def scripts(ctx: typer.Context, output_json: bool = typer.Option(False, "--json"
 
 async def eval_script_mock(**kwargs):
     req = EvalScriptMockRequest(**kwargs)
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         eval_script_mock_resp = await client.eval_script_mock(req)
         return await eval_script_mock_resp.json()
 

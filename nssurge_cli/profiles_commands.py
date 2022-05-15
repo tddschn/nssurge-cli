@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from . import __version__, __app_name__, logger
-from .config import read_config, app as config_app, get_creds
+from .config import read_config, app as config_app, get_config
 from .types import OnOffToggleEnum
 from .utils import (
     bool2color,
@@ -39,7 +39,7 @@ app = typer.Typer(name="profiles")
 
 
 async def get_active_profile(mask_password: bool = True) -> dict:
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         profile = await client.get_active_profile(mask_password)
         return await profile.json()
 
@@ -54,7 +54,7 @@ def active_profile(ctx: typer.Context, mask_password: bool = True, output_json: 
 
 
 async def reload_profile():
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         await client.reload_profile()
 
 
@@ -64,7 +64,7 @@ def reload_profile_command():
 
 
 async def switch_profile(profile_name: Profile):
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         await client.switch_profile(profile_name)
 
 
@@ -74,7 +74,7 @@ def switch_profile_command(profile_name: Profile):
 
 
 async def list_profiles():
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         profiles = await client.get_profiles()
         return await profiles.json()
 
@@ -86,7 +86,7 @@ def list_profiles_command(output_json: bool = typer.Option(False, "--json", '-j'
 
 
 async def validate_profile(profile_name: Profile):
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         resp = await client.validate_profile(profile_name)
         return await resp.json()
 

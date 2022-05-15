@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from . import __version__, __app_name__, logger
-from .config import read_config, app as config_app, get_creds
+from .config import read_config, app as config_app, get_config
 from .types import (OnOffToggleEnum)
 from .utils import (bool2color, parse_cap_get, get_cap_state, typer_output_dict, use_local_nssurge_api_module)
 from utils_tddschn.utils import strtobool
@@ -27,7 +27,7 @@ async def get_set_cap(
     """
     Get or set a capability.
     """
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         state_orig = await get_cap_state(client, capability)
         match on_off:
             case OnOffToggleEnum.on | OnOffToggleEnum.off:
@@ -70,7 +70,7 @@ def cap(capability: Capability = typer.Argument(None), on_off: OnOffToggleEnum =
 
 async def get_caps() -> dict[str, bool]:
     """get all caps"""
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         # get caps concurrently
         caps = await asyncio.gather(
             *[get_cap_state(client, capability) for capability in Capability]

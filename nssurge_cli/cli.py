@@ -1,5 +1,5 @@
 from . import __version__, __app_name__, logger
-from .config import app as config_app, get_creds
+from .config import app as config_app, get_config
 from .group_commands import app as group_app
 from .cap_commands import app as cap_app
 from .outbound_commands import app as outbound_app

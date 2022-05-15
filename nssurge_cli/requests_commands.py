@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from . import __version__, __app_name__, logger
-from .config import read_config, app as config_app, get_creds
+from .config import read_config, app as config_app, get_config
 from .types import (OnOffToggleEnum)
 from .utils import (bool2color, parse_cap_get, get_cap_state, typer_output_dict, use_local_nssurge_api_module)
 from utils_tddschn.utils import strtobool
@@ -22,7 +22,7 @@ async def get_requests(requests_type: RequestsType = RequestsType.recent):
     """
     Get requests
     """
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         req_resp = await client.get_requests(requests_type)
         req_dict: dict = await req_resp.json()
         # if 'error' in req_dict:
@@ -52,7 +52,7 @@ async def kill_request(request_id: int):
     """
     Kill requests
     """
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         kill_resp = await client.kill_request(request_id)
         kill_dict: dict = await kill_resp.json()
         # if 'error' in kill_dict:

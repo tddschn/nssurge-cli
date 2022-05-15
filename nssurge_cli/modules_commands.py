@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from . import __version__, __app_name__, logger
-from .config import read_config, app as config_app, get_creds
+from .config import read_config, app as config_app, get_config
 from .types import OnOffToggleEnum
 from .utils import (
     bool2color,
@@ -39,7 +39,7 @@ app = typer.Typer(name="modules")
 
 
 async def get_modules():
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         modules = await client.get_modules()
         return await modules.json()
 

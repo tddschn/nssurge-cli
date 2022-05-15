@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from . import __version__, __app_name__, logger
-from .config import read_config, app as config_app, get_creds
+from .config import read_config, app as config_app, get_config
 from .types import (OnOffToggleEnum)
 from .utils import (bool2color, parse_cap_get, get_cap_state, typer_output_dict, use_local_nssurge_api_module)
 from utils_tddschn.utils import strtobool
@@ -21,7 +21,7 @@ async def stop_engine():
     """
     Stop the engine
     """
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         stop_resp = await client.stop_engine()
         stop_dict: dict = await stop_resp.json()
         # if 'error' in stop_dict:
@@ -44,7 +44,7 @@ async def get_events():
     """
     Get events
     """
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         events_resp = await client.get_events()
         events_dict: dict = await events_resp.json()
         # if 'error' in events_dict:
@@ -71,7 +71,7 @@ async def get_rules():
     """
     Get rules
     """
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         rules_resp = await client.get_rules()
         rules_dict: dict = await rules_resp.json()
         # if 'error' in rules_dict:
@@ -98,7 +98,7 @@ async def get_traffic():
     """
     Get traffic
     """
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         traffic_resp = await client.get_traffic()
         traffic_dict: dict = await traffic_resp.json()
         # if 'error' in traffic_dict:
@@ -125,7 +125,7 @@ async def set_log_level(log_level: LogLevel):
     """
     Set log level
     """
-    async with SurgeAPIClient(*get_creds()) as client:
+    async with SurgeAPIClient(*get_config()) as client:
         log_level_resp = await client.set_log_level(log_level)
         log_level_dict: dict = await log_level_resp.json()
         # if 'error' in log_level_dict:
