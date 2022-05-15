@@ -57,7 +57,7 @@ def typer_output_dict(
     if output_json:
         import json
 
-        typer.secho(json.dumps(d, indent=2))
+        typer.secho(json.dumps(d, indent=2, ensure_ascii=False))
     elif pretty_print:
         from pprint import PrettyPrinter
 
