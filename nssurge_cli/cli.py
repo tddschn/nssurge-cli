@@ -2,6 +2,8 @@ from . import __version__, __app_name__, logger
 from .config import read_config, app as config_app, get_creds
 from .group_commands import app as group_app
 from .cap_commands import app as cap_app
+from .outbound_commands import app as outbound_app
+from .global_commands import app as global_app
 from .profiles_commands import app as profiles_app
 from .dns_commands import app as dns_app
 from .modules_commands import app as modules_app
@@ -43,6 +45,8 @@ from aiohttp import ClientSession, ClientResponse
 app = typer.Typer(name=__app_name__)
 app.add_typer(config_app)
 app.add_typer(cap_app)
+app.add_typer(outbound_app)
+app.add_typer(global_app)
 app.add_typer(group_app)
 app.add_typer(profiles_app)
 app.add_typer(dns_app)
@@ -50,61 +54,6 @@ app.add_typer(modules_app)
 app.add_typer(scripting_app)
 app.add_typer(devices_app)
 
-
-async def get_set_outbound(
-    outbound_mode: OutboundMode = typer.Argument(None),
-) -> OutboundMode:
-    """
-    Get or set the outbound mode.
-    """
-    async with SurgeAPIClient(*get_creds()) as client:
-        if outbound_mode is not None:
-            set_resp = await client.set_outbound_mode(outbound_mode)
-        new_outbound_mode = (await (await client.get_outbound_mode()).json())["mode"]
-        if outbound_mode is not None:
-            typer.secho(f"Set outbound mode to {new_outbound_mode}")
-        else:
-            typer.secho(f"Current outbound mode: {new_outbound_mode}")
-        return OutboundMode[new_outbound_mode]
-
-
-@app.command("outbound")
-def outbound(outbound_mode: OutboundMode = typer.Argument(None)):
-    """
-    Get or set the outbound mode.
-    """
-    asyncio.run(get_set_outbound(outbound_mode))
-
-
-async def get_set_global_policy(policy: Policy = typer.Argument(None)) -> Policy:
-    """
-    Get or set the global policy.
-    """
-    async with SurgeAPIClient(*get_creds()) as client:
-        if policy is not None:
-            set_resp = await client.set_global_policy(policy)
-            set_dict: dict = await set_resp.json()
-            if "error" in set_dict:
-                typer.secho(
-                    f'Failed to set policy {policy}: {set_dict["error"]}',
-                    fg=typer.colors.RED,
-                )
-                raise typer.Exit(1)
-        current_policy = (await (await client.get_global_policy()).json())["policy"]
-        if policy is not None:
-            typer.secho(f"Set global policy to {current_policy}")
-        else:
-            typer.secho(f"Current global policy: {current_policy}")
-        return current_policy
-
-
-@app.command("global")
-def global_command(policy: Policy = typer.Argument(None)):
-    """
-    Get or set the global policy.
-    """
-    asyncio.run(get_set_global_policy(policy))
-    typer.secho(f"Warning: the get API is broken on the Surge side")
 
 
 async def get_policy(policy: Policy = typer.Argument(None)) -> Policies | dict:
