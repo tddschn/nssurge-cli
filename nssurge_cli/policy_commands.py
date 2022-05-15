@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from functools import cache
+from typing import Iterable
 from . import __version__, __app_name__, logger
 from .config import read_config, app as config_app, get_config
 from .types import (OnOffToggleEnum)
@@ -11,14 +13,16 @@ from nssurge_api.types import (Capability, LogLevel, OutboundMode, Policy,
 							   PolicyGroup, RequestsType, Profile, Enabled,
 							   SetModuleStateRequest, EvalScriptMockRequest,
 							   EvalCronScriptRequest, Script,
-							   ChangeDeviceRequest, Policies, Proxy)
+							   ChangeDeviceRequest, Policies, Proxy, Proxies, PolicyGroups)
 import typer
 import asyncio
 from aiohttp import ClientSession, ClientResponse
+# from .completions import complete_policy
 
 app = typer.Typer(name="policy")
 
-async def get_policy(policy: Policy = typer.Argument(None)) -> Policies | dict:
+@cache
+async def get_policy(policy: Policy | None = None) -> Policies | dict:
     """
     Get all policies.
     """
@@ -35,11 +39,26 @@ async def get_policy(policy: Policy = typer.Argument(None)) -> Policies | dict:
                 raise typer.Exit(1)
             return policy_dict
 
+async def complete_policy(incomplete: str) -> Iterable[tuple[str, str]]:
+    """
+    Complete policy names.
+    """
+    incomplete = incomplete.lower()
+    policy_dict: Policies = await get_policy() # type: ignore
+    # proxies: Proxies = policy_dict["proxies"]
+    policy_groups: PolicyGroups = policy_dict["policy-groups"]
+    p2type_mapping = {p: 'policy group' for p in policy_groups if incomplete in p.lower()}
+    # p2type_mapping = {p: 'proxy' for p in proxies if incomplete in p.lower()}
+    
+    return p2type_mapping.items()
+
+def complete_policy_sync(incomplete: str):
+    return asyncio.run(complete_policy(incomplete))
 
 # @app.command("policy")
 @app.callback(invoke_without_command=True)
 def policy(ctx: typer.Context,
-    policy: Policy = typer.Argument(None),
+    policy: Policy = typer.Argument(None, autocompletion=complete_policy_sync),
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
     rich_print: bool = typer.Option(False, "--rich", "-r"),
