@@ -3,7 +3,6 @@
 from functools import cache
 from pathlib import Path
 import sys
-from tkinter import getboolean
 import typer
 
 # mkdir -p ~/.nssurge-cli
@@ -14,6 +13,12 @@ DEFAULT_TRUST_ENV = True
 
 app = typer.Typer(name="config")
 
+
+@app.callback()
+def config_callback():
+    """
+    Manage configuration
+    """
 
 @cache
 def read_config(config_path: Path = DEFAULT_CONFIG_PATH) -> dict:

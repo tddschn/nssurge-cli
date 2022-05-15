@@ -13,9 +13,10 @@ from nssurge_api.types import (Capability, LogLevel, OutboundMode, Policy,
 							   PolicyGroup, RequestsType, Profile, Enabled,
 							   SetModuleStateRequest, EvalScriptMockRequest,
 							   EvalCronScriptRequest, Script,
-							   ChangeDeviceRequest, Policies, Proxy)
+							   ChangeDeviceRequest, Policies, Proxy, Proxies, PolicyGroups)
 import typer
 import asyncio
+from .policy_commands import get_policy
 from aiohttp import ClientSession, ClientResponse
 
 
@@ -24,6 +25,8 @@ async def complete_policy(incomplete: str) -> Iterable[str]:
     """
     Complete policy names.
     """
-
+    policy_dict: Policies = await get_policy()
+    proxies: Proxies = policy_dict["proxies"]
+    policy_groups: PolicyGroups = policy_dict["policy-groups"]
     
-    return [p.name for p in policies if p.name.startswith(incomplete)]
+    return [p for p in proxies + policy_groups if incomplete in p]
