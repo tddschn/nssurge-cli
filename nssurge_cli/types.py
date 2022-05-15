@@ -7,3 +7,8 @@ class OnOffToggleEnum(str, Enum):
     on = "on"
     off = "off"
     toggle = "toggle"
+
+class ChangeDeviceEnum(str, Enum):
+    name = 'name' # type: ignore
+    address = 'address'
+    use_surge = 'shouldHandledBySurge'

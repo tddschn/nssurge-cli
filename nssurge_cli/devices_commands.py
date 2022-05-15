@@ -2,7 +2,7 @@
 
 from . import __version__, __app_name__, logger
 from .config import read_config, app as config_app, get_creds
-from .types import OnOffToggleEnum
+from .types import OnOffToggleEnum, ChangeDeviceEnum
 from .utils import (
     bool2color,
     parse_cap_get,
@@ -61,9 +61,22 @@ async def get_device_icon(icon_id):
 
 
 @app.command("icon")
-def icon(icon_id):
+def icon(icon_id, output_json: bool = typer.Option(False, "--json", "-j"), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
     icon_resp = asyncio.run(get_device_icon(icon_id))
-    typer_output_dict(icon_resp)
+    typer_output_dict(icon_resp, output_json, pretty_print, rich_print)
+    typer.secho('Warning: the Surge API used is broken on Surge for mac 4.5.0', dim=True, err=True)
 
 
-# todo: change_device unimplemented
+async def change_device(req: ChangeDeviceRequest):
+    async with SurgeAPIClient(*get_creds()) as client:
+        resp = await client.change_device(req)
+        return await resp.json()
+
+@app.command('set')
+def set_device_command(physical_address: str, field: ChangeDeviceEnum, value: str):
+    req = ChangeDeviceRequest(
+        physicalAddress=physical_address,
+    )
+    setattr(req, field.value, value)
+    resp_dict = asyncio.run(change_device(req))
+    typer_output_dict(resp_dict)

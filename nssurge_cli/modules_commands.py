@@ -45,9 +45,9 @@ async def get_modules():
 
 
 @app.callback(invoke_without_command=True)
-def get_modules_command():
+def get_modules_command(output_json: bool = typer.Option(False, "--json", '-j'), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
     modules = asyncio.run(get_modules())
-    typer_output_dict(modules)
+    typer_output_dict(modules, output_json, pretty_print, rich_print)
 
 
 # async def set_modules()
