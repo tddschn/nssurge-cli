@@ -15,6 +15,7 @@ from nssurge_api.types import (Capability, LogLevel, OutboundMode, Policy,
 import typer
 import asyncio
 from aiohttp import ClientSession, ClientResponse
+from .policy_commands import complete_policies, complete_proxies
 
 app = typer.Typer(name="test")
 
@@ -37,10 +38,14 @@ async def test_proxies(policies: list[Proxy], url: str | None = None) -> dict:
 
 # @app.command("test")
 @app.callback(invoke_without_command=True)
-def test_proxies_command(ctx: typer.Context, policies: list[Proxy], url: str | None = None, output_json: bool = typer.Option(False, "--json", "-j"), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
+def test_proxies_command(ctx: typer.Context, policies: list[Proxy] = typer.Argument(..., autocompletion=complete_proxies), url: str | None = None, output_json: bool = typer.Option(False, "--json", "-j"), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
     """
     Test proxies
     """
+    #! bug:
+    # options after list of arguments interpreted as argument
+    # https://github.com/tiangolo/typer/search?q=options%20after%20list%20of%20arguments%20interpreted%20as%20argument
+    # changing the arg to option doesn't help either
     if ctx.invoked_subcommand is not None:
         return
     test_dict = asyncio.run(test_proxies(policies, url))

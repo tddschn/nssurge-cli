@@ -43,6 +43,26 @@ def complete_policy(incomplete: str) -> Iterable[tuple[str, str]]:
     
     return p2type_mapping.items()
 
+def complete_policies(ctx: typer.Context, incomplete: str) -> Iterable[str]:
+    """
+    Complete policy names.
+    """
+    incomplete = incomplete.lower()
+    policy_dict: Policies = asyncio.run(get_policy()) # type: ignore
+    policies_already_supplied = ctx.params.get("policies") or []
+    policy_groups: PolicyGroups = policy_dict["policy-groups"]
+    return [p for p in policy_groups if incomplete in p.lower() and p not in policies_already_supplied]
+
+def complete_proxies(ctx: typer.Context, incomplete: str) -> Iterable[str]:
+    """
+    Complete policy names.
+    """
+    incomplete = incomplete.lower()
+    policy_dict: Policies = asyncio.run(get_policy()) # type: ignore
+    policies_already_supplied = ctx.params.get("policies") or []
+    policy_groups: PolicyGroups = policy_dict["proxies"]
+    return [p for p in policy_groups if incomplete in p.lower() and p not in policies_already_supplied]
+
 def complete_proxy(incomplete: str) -> Iterable[tuple[str, str]]:
     """
     Complete policy names.

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from typing import Iterable
 from . import __version__, __app_name__, logger
 from .config import read_config, app as config_app, get_config
 from .types import OnOffToggleEnum, ChangeDeviceEnum
@@ -43,6 +44,18 @@ async def get_devices():
         devices_resp = await client.get_devices()
         return await devices_resp.json()
 
+def complete_devices(incomplete: str):
+    """
+    Complete device names.
+    """
+    incomplete = incomplete.lower()
+    devices_dict = asyncio.run(get_devices()) # type: ignore
+    devices: list[dict] = devices_dict['devices']
+    for device in devices:
+        info = ' | '.join(map(lambda x: str(device.get(x)), ['name', 'displayIPAddress', 'totalBytes']))
+        id: str = device.get('identifier') # type: ignore
+        if incomplete in id or incomplete in info.lower():
+            yield id, info
 
 @app.callback(invoke_without_command=True)
 def devices(ctx: typer.Context,
@@ -75,7 +88,7 @@ async def change_device(req: ChangeDeviceRequest):
         return await resp.json()
 
 @app.command('set')
-def set_device_command(physical_address: str, field: ChangeDeviceEnum, value: str):
+def set_device_command(physical_address: str = typer.Argument(..., autocompletion=complete_devices), field: ChangeDeviceEnum = typer.Argument(...), value: str = typer.Argument(...)):
     req = ChangeDeviceRequest(
         physicalAddress=physical_address,
     )

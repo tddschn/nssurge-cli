@@ -15,10 +15,11 @@ from nssurge_api.types import (Capability, LogLevel, OutboundMode, Policy,
 import typer
 import asyncio
 from aiohttp import ClientSession, ClientResponse
+from .policy_commands import complete_policy_and_proxy
 
 app = typer.Typer(name="global")
 
-async def get_set_global_policy(policy: Policy = typer.Argument(None)) -> Policy:
+async def get_set_global_policy(policy: Policy | None = None) -> Policy:
     """
     Get or set the global policy.
     """
@@ -42,7 +43,7 @@ async def get_set_global_policy(policy: Policy = typer.Argument(None)) -> Policy
 
 # @app.command("global")
 @app.callback(invoke_without_command=True)
-def global_command(ctx: typer.Context, policy: Policy = typer.Argument(None)):
+def global_command(ctx: typer.Context, policy: Policy = typer.Argument(None, help="Policy name", autocompletion=complete_policy_and_proxy)):
     """
     Get or set the global policy.
     """
