@@ -104,6 +104,11 @@ async def validate_profile(profile_name: Profile):
 @app.command("validate")
 def validate_profile_command(profile_name: Profile = typer.Argument(..., help="Profile name", autocompletion=complete_profiles)):
     profile = asyncio.run(validate_profile(profile_name))
-    typer_output_dict(profile)
+    if profile['error'] is None:
+        typer.secho(f"Profile {profile_name} is valid", fg='green')
+    else:
+        typer.secho(f"Profile {profile_name} is invalid", fg='red')
+        typer.secho(profile['error'], fg='red')
+    # typer_output_dict(profile)
 
 
