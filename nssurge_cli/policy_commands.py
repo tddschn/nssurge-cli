@@ -39,12 +39,12 @@ async def get_policy(policy: Policy | None = None) -> Policies | dict:
                 raise typer.Exit(1)
             return policy_dict
 
-async def complete_policy(incomplete: str) -> Iterable[tuple[str, str]]:
+def complete_policy(incomplete: str) -> Iterable[tuple[str, str]]:
     """
     Complete policy names.
     """
     incomplete = incomplete.lower()
-    policy_dict: Policies = await get_policy() # type: ignore
+    policy_dict: Policies = asyncio.run(get_policy()) # type: ignore
     # proxies: Proxies = policy_dict["proxies"]
     policy_groups: PolicyGroups = policy_dict["policy-groups"]
     p2type_mapping = {p: 'policy group' for p in policy_groups if incomplete in p.lower()}
@@ -52,13 +52,11 @@ async def complete_policy(incomplete: str) -> Iterable[tuple[str, str]]:
     
     return p2type_mapping.items()
 
-def complete_policy_sync(incomplete: str):
-    return asyncio.run(complete_policy(incomplete))
 
 # @app.command("policy")
 @app.callback(invoke_without_command=True)
 def policy(ctx: typer.Context,
-    policy: Policy = typer.Argument(None, autocompletion=complete_policy_sync),
+    policy: Policy = typer.Argument(None, autocompletion=complete_policy),
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
     rich_print: bool = typer.Option(False, "--rich", "-r"),

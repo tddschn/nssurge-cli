@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from typing import Iterable
 from . import __version__, __app_name__, logger
 from .config import read_config, app as config_app, get_config
 from .types import OnOffToggleEnum
@@ -78,6 +79,15 @@ async def list_profiles():
         profiles = await client.get_profiles()
         return await profiles.json()
 
+def complete_profiles(incomplete: str) -> Iterable[Profile]:
+    profiles_dict = asyncio.run(list_profiles())
+    profiles: list[Profile] = profiles_dict['profiles']
+    # for profile in profiles:
+    #     if incomplete.lower() in profile.lower():
+    #         yield profile
+    return [profile for profile in profiles if incomplete.lower() in profile.lower()]
+
+    
 
 @app.command("list")
 def list_profiles_command(output_json: bool = typer.Option(False, "--json", '-j'), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
@@ -92,6 +102,8 @@ async def validate_profile(profile_name: Profile):
 
 
 @app.command("validate")
-def validate_profile_command(profile_name: Profile):
+def validate_profile_command(profile_name: Profile = typer.Argument(..., help="Profile name", autocompletion=complete_profiles)):
     profile = asyncio.run(validate_profile(profile_name))
     typer_output_dict(profile)
+
+
