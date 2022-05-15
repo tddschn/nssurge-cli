@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from pathlib import Path
+from typing import Iterable
 from . import __version__, __app_name__, logger
 from .config import read_config, app as config_app, get_config
 from .types import (OnOffToggleEnum)
@@ -30,11 +32,25 @@ async def get_requests(requests_type: RequestsType = RequestsType.recent):
         # 	raise typer.Exit(1)
         return req_dict
 
+def complete_requests_id(incomplete: str) -> Iterable[tuple[str, str]]:
+    """
+    Complete requests ids.
+    """
+    incomplete = incomplete.lower()
+    req_dict: dict = asyncio.run(get_requests(requests_type=RequestsType.active)) # type: ignore
+    reqs: list[dict] = req_dict["requests"]
+    for req in reqs:
+        info = Path(req['processPath']).name
+        info += ' | '
+        info += ' | '.join(map(lambda x: req.get(x, ''), ['status', 'policyName', 'rule', 'URL']))
+        if incomplete in str(req['id']) or incomplete in info.lower():
+            yield (str(req['id']), info)
+    
 
 # @app.command("requests")
 @app.callback(invoke_without_command=True)
 def requests(ctx: typer.Context,
-    requests_type: RequestsType = RequestsType.recent,
+    requests_type: RequestsType = typer.Option(RequestsType.recent, '--type', '-t'),
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
     rich_print: bool = typer.Option(False, "--rich", "-r"),
@@ -63,10 +79,17 @@ async def kill_request(request_id: int):
 
 
 @app.command("kill")
-def kill_request_command(request_id: int):
+def kill_request_command(request_id: int = typer.Argument(..., help="Request ID", autocompletion=complete_requests_id)):
     """
     Kill requests
     """
     kill_dict = asyncio.run(kill_request(request_id))
-    typer_output_dict(kill_dict)
+    error = kill_dict.get('error', None)
+    if error is None:
+        # success
+        typer.secho(f'Successfully killed request {request_id}', fg=typer.colors.GREEN)
+    else:
+        # failed
+        typer.secho(f'Failed to kill request {request_id}', fg=typer.colors.RED)
+        typer.secho(f'Error: {error}', fg=typer.colors.RED)
 
