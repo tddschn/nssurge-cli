@@ -47,7 +47,7 @@ async def get_policy_group(policy_group: PolicyGroup = typer.Argument(None)) -> 
 
 # @app.command('group')
 @app.callback(invoke_without_command=True)
-def policy_group(
+def policy_group(ctx: typer.Context,
     policy_group: PolicyGroup,
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
@@ -56,6 +56,8 @@ def policy_group(
     """
     Get all policy groups, or a specific one.
     """
+    if ctx.invoked_subcommand is not None:
+        return
     policy_group_dict = asyncio.run(get_policy_group(policy_group))
     typer_output_dict(policy_group_dict, output_json, pretty_print, rich_print)
 

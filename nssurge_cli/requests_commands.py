@@ -33,7 +33,7 @@ async def get_requests(requests_type: RequestsType = RequestsType.recent):
 
 # @app.command("requests")
 @app.callback(invoke_without_command=True)
-def requests(
+def requests(ctx: typer.Context,
     requests_type: RequestsType = RequestsType.recent,
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
@@ -42,6 +42,8 @@ def requests(
     """
     Get requests
     """
+    if ctx.invoked_subcommand is not None:
+        return
     req_dict = asyncio.run(get_requests(requests_type))
     typer_output_dict(req_dict, output_json, pretty_print, rich_print)
 

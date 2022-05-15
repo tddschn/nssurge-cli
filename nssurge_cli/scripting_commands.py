@@ -45,10 +45,12 @@ async def get_scripts():
 
 
 @app.callback(invoke_without_command=True)
-def scripts():
+def scripts(ctx: typer.Context, output_json: bool = typer.Option(False, "--json", '-j'), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
     """Get all scripts"""
+    if ctx.invoked_subcommand is not None:
+        return
     scripts_resp = asyncio.run(get_scripts())
-    typer_output_dict(scripts_resp)
+    typer_output_dict(scripts_resp, output_json, pretty_print, rich_print)
 
 
 async def eval_script_mock(**kwargs):

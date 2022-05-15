@@ -46,8 +46,10 @@ async def get_set_outbound(
 
 # @app.command("outbound")
 @app.callback(invoke_without_command=True)
-def outbound(outbound_mode: OutboundMode = typer.Argument(None)):
+def outbound(ctx: typer.Context, outbound_mode: OutboundMode = typer.Argument(None)):
     """
     Get or set the outbound mode.
     """
+    if ctx.invoked_subcommand is not None:
+        return
     asyncio.run(get_set_outbound(outbound_mode))

@@ -38,7 +38,7 @@ async def get_policy(policy: Policy = typer.Argument(None)) -> Policies | dict:
 
 # @app.command("policy")
 @app.callback(invoke_without_command=True)
-def policy(
+def policy(ctx: typer.Context,
     policy: Policy = typer.Argument(None),
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
@@ -47,6 +47,8 @@ def policy(
     """
     Get all policies, or a specific policy.
     """
+    if ctx.invoked_subcommand is not None:
+        return
     policy_dict = asyncio.run(get_policy(policy))
     typer_output_dict(policy_dict, output_json, pretty_print, rich_print)  # type: ignore
 

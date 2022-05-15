@@ -37,9 +37,11 @@ async def test_proxies(policies: list[Proxy], url: str | None = None) -> dict:
 
 # @app.command("test")
 @app.callback(invoke_without_command=True)
-def test_proxies_command(policies: list[Proxy], url: str | None = None):
+def test_proxies_command(ctx: typer.Context, policies: list[Proxy], url: str | None = None, output_json: bool = typer.Option(False, "--json", "-j"), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
     """
     Test proxies
     """
+    if ctx.invoked_subcommand is not None:
+        return
     test_dict = asyncio.run(test_proxies(policies, url))
-    typer_output_dict(test_dict)
+    typer_output_dict(test_dict, output_json, pretty_print, rich_print)  # type: ignore

@@ -45,8 +45,10 @@ async def get_active_profile(mask_password: bool = True) -> dict:
 
 
 @app.callback(invoke_without_command=True)
-def active_profile(mask_password: bool = True, output_json: bool = typer.Option(False, "--json", '-j'), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
+def active_profile(ctx: typer.Context, mask_password: bool = True, output_json: bool = typer.Option(False, "--json", '-j'), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
     """Get active profile"""
+    if ctx.invoked_subcommand is not None:
+        return
     profile = asyncio.run(get_active_profile(mask_password))
     typer_output_dict(profile, output_json, pretty_print, rich_print)
 

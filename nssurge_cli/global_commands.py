@@ -42,10 +42,12 @@ async def get_set_global_policy(policy: Policy = typer.Argument(None)) -> Policy
 
 # @app.command("global")
 @app.callback(invoke_without_command=True)
-def global_command(policy: Policy = typer.Argument(None)):
+def global_command(ctx: typer.Context, policy: Policy = typer.Argument(None)):
     """
     Get or set the global policy.
     """
+    if ctx.invoked_subcommand is not None:
+        return
     asyncio.run(get_set_global_policy(policy))
     # typer.secho(f"Warning: the get API is broken on the Surge side")
     # dimmed style

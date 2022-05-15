@@ -45,11 +45,13 @@ async def get_devices():
 
 
 @app.callback(invoke_without_command=True)
-def devices(
+def devices(ctx: typer.Context,
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
     rich_print: bool = typer.Option(False, "--rich", "-r"),
 ):
+    if ctx.invoked_subcommand is not None:
+        return
     devices_resp = asyncio.run(get_devices())
     typer_output_dict(devices_resp, output_json, pretty_print, rich_print)
 
@@ -77,6 +79,15 @@ def set_device_command(physical_address: str, field: ChangeDeviceEnum, value: st
     req = ChangeDeviceRequest(
         physicalAddress=physical_address,
     )
-    setattr(req, field.value, value)
+    # setattr(req, field.value, value)
+    req[field.value] = value
     resp_dict = asyncio.run(change_device(req))
-    typer_output_dict(resp_dict)
+    # typer_output_dict(resp_dict)
+    if not resp_dict:
+        # success
+        typer.secho(f'Successfully set {field.value} to {value} for {physical_address}', fg=typer.colors.GREEN)
+    else:
+        # failure
+        typer.secho(f'Failed to set {field.value} to {value} for {physical_address}', fg=typer.colors.RED)
+        typer.secho(f'Error: {resp_dict["error"]}', fg=typer.colors.RED)
+

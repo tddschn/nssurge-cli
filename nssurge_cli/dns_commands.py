@@ -45,7 +45,9 @@ async def flush_dns():
 
 @app.command("flush")
 def flush_dns_command():
-    asyncio.run(flush_dns())
+    resp = asyncio.run(flush_dns())
+    # resp is empty
+    typer.secho(f'Flushed DNS cache', fg=typer.colors.GREEN)
 
 
 async def get_dns():
@@ -55,9 +57,11 @@ async def get_dns():
 
 
 @app.callback(invoke_without_command=True)
-def get_dns_command():
+def get_dns_command(ctx: typer.Context, output_json: bool = typer.Option(False, "--json", "-j"), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
+    if ctx.invoked_subcommand is not None:
+        return
     dns = asyncio.run(get_dns())
-    typer_output_dict(dns)
+    typer_output_dict(dns, output_json, pretty_print, rich_print)
 
 
 async def test_dns():
@@ -67,6 +71,6 @@ async def test_dns():
 
 
 @app.command("test")
-def test_dns_command():
+def test_dns_command(output_json: bool = typer.Option(False, "--json", "-j"), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
     dns = asyncio.run(test_dns())
-    typer_output_dict(dns)
+    typer_output_dict(dns, output_json, pretty_print, rich_print)
