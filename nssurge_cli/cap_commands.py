@@ -2,8 +2,7 @@
 from . import __version__, __app_name__, logger
 from .config import read_config, app as config_app, get_config
 from .types import (OnOffToggleEnum)
-from .utils import (bool2color, parse_cap_get, get_cap_state, typer_output_dict, use_local_nssurge_api_module)
-from utils_tddschn.utils import strtobool
+from .utils import (bool2color, parse_cap_get, get_cap_state, typer_output_dict, use_local_nssurge_api_module, s2b)
 # use_local_nssurge_api_module()
 from nssurge_api import SurgeAPIClient
 from nssurge_api.types import (Capability, LogLevel, OutboundMode, Policy,
@@ -15,9 +14,6 @@ import typer
 import asyncio
 from aiohttp import ClientSession, ClientResponse
 
-def s2b(s: str) -> bool:
-    return bool(strtobool(s))
-
 
 app = typer.Typer(name='cap')
 
@@ -25,7 +21,7 @@ async def get_set_cap(
     capability: Capability, on_off: OnOffToggleEnum = typer.Argument(None)
 ) -> bool | tuple[bool, bool]:
     """
-    Get or set a capability.
+    Get or set a capability
     """
     async with SurgeAPIClient(*get_config()) as client:
         state_orig = await get_cap_state(client, capability)

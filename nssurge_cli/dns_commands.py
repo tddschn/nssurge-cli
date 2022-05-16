@@ -58,6 +58,7 @@ async def get_dns():
 
 @app.callback(invoke_without_command=True)
 def get_dns_command(ctx: typer.Context, output_json: bool = typer.Option(False, "--json", "-j"), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
+    """Manage DNS"""
     if ctx.invoked_subcommand is not None:
         return
     dns = asyncio.run(get_dns())

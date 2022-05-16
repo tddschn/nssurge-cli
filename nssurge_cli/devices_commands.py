@@ -63,6 +63,7 @@ def devices(ctx: typer.Context,
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
     rich_print: bool = typer.Option(False, "--rich", "-r"),
 ):
+    """Manage devices"""
     if ctx.invoked_subcommand is not None:
         return
     devices_resp = asyncio.run(get_devices())

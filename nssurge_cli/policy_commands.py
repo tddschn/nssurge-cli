@@ -116,7 +116,7 @@ def policy(ctx: typer.Context,
     rich_print: bool = typer.Option(False, "--rich", "-r"),
 ):
     """
-    Get all policies, or a specific policy.
+    Get all policies, or a specific policy
     """
     if ctx.invoked_subcommand is not None:
         return

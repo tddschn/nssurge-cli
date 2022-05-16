@@ -20,6 +20,10 @@ from nssurge_api.types import (
     ChangeDeviceRequest,
 )
 
+from utils_tddschn.utils import strtobool
+def s2b(s: str) -> bool:
+    return bool(strtobool(s))
+
 
 async def parse_cap_get(resp: ClientResponse) -> bool:
     if not resp.status == 200:
