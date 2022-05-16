@@ -14,6 +14,7 @@ keywords = ["nssurge", "cli", "surge"]
 
 [tool.poetry.scripts]
 nsg = "nssurge_cli:cli.app"
+nssurge-cli = "nssurge_cli:cli.app"
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/tddschn/nssurge-cli/issues"
