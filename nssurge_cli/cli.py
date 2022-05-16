@@ -1,5 +1,5 @@
-from . import __version__, __app_name__, logger
-from .config import app as config_app, get_config
+from . import __app_name__, __version__
+from .config import app as config_app
 from .group_commands import app as group_app
 from .cap_commands import app as cap_app
 from .outbound_commands import app as outbound_app
@@ -13,7 +13,6 @@ from .modules_commands import app as modules_app
 from .scripting_commands import app as scripting_app
 from .devices_commands import app as devices_app
 from .misc_commands import typer_register_misc_commands
-from nssurge_api import SurgeAPIClient
 import typer
 
 app = typer.Typer(name=__app_name__)

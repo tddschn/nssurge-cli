@@ -2,22 +2,10 @@
 
 from pathlib import Path
 import typer
-from aiohttp import ClientSession, ClientResponse
+from aiohttp import ClientResponse
 from nssurge_api import SurgeAPIClient
 from nssurge_api.types import (
     Capability,
-    LogLevel,
-    OutboundMode,
-    Policy,
-    PolicyGroup,
-    RequestsType,
-    Profile,
-    Enabled,
-    SetModuleStateRequest,
-    EvalScriptMockRequest,
-    EvalCronScriptRequest,
-    Script,
-    ChangeDeviceRequest,
 )
 
 from utils_tddschn.utils import strtobool
