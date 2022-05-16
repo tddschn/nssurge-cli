@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "nssurge-cli"
 version = "2.0.2"
-description = ""
+description = "NSSurge CLI"
 authors = ["Xinyuan Chen <45612704+tddschn@users.noreply.github.com>"]
 license = "MIT"
 readme = "README.md"
@@ -10,7 +10,7 @@ repository = "https://github.com/tddschn/nssurge-cli"
 classifiers = [
 	"Topic :: Utilities"
 ]
-keywords = ["nssurge", "cli", "surge"]
+keywords = ["nssurge", "cli", "surge", "typer"]
 
 [tool.poetry.scripts]
 nsg = "nssurge_cli:cli.app"
