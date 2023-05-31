@@ -1,18 +1,18 @@
-from . import __app_name__, __version__
-from .config import app as config_app
-from .group_commands import app as group_app
-from .cap_commands import app as cap_app
-from .outbound_commands import app as outbound_app
-from .global_commands import app as global_app
-from .policy_commands import app as policy_app
-from .test_commands import app as test_app
-from .requests_commands import app as requests_app
-from .profiles_commands import app as profiles_app
-from .dns_commands import app as dns_app
-from .modules_commands import app as modules_app
-from .scripting_commands import app as scripting_app
-from .devices_commands import app as devices_app
-from .misc_commands import typer_register_misc_commands
+from nssurge_cli import __app_name__, __version__
+from nssurge_cli.config import app as config_app
+from nssurge_cli.group_commands import app as group_app
+from nssurge_cli.cap_commands import app as cap_app
+from nssurge_cli.outbound_commands import app as outbound_app
+from nssurge_cli.global_commands import app as global_app
+from nssurge_cli.policy_commands import app as policy_app
+from nssurge_cli.test_commands import app as test_app
+from nssurge_cli.requests_commands import app as requests_app
+from nssurge_cli.profiles_commands import app as profiles_app
+from nssurge_cli.dns_commands import app as dns_app
+from nssurge_cli.modules_commands import app as modules_app
+from nssurge_cli.scripting_commands import app as scripting_app
+from nssurge_cli.devices_commands import app as devices_app
+from nssurge_cli.misc_commands import typer_register_misc_commands
 import typer
 
 app = typer.Typer(name=__app_name__)
