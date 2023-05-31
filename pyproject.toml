@@ -7,9 +7,7 @@ license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/tddschn/nssurge-cli"
 repository = "https://github.com/tddschn/nssurge-cli"
-classifiers = [
-	"Topic :: Utilities"
-]
+classifiers = ["Topic :: Utilities"]
 keywords = ["nssurge", "cli", "surge", "typer"]
 
 [tool.poetry.scripts]
@@ -20,19 +18,22 @@ nssurge-cli = "nssurge_cli:cli.app"
 "Bug Tracker" = "https://github.com/tddschn/nssurge-cli/issues"
 
 [tool.poetry.dependencies]
-python = "^3.10"
-typer = "^0.4.1"
+python = ">=3.11, <4.0"
 nssurge-api = "0.2.10"
 utils-tddschn = "^0.1.5"
-rich = {version = "^12.4.1", extras = ["format"]}
+rich = { version = "^12.4.1", extras = ["format"] }
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
 toml = "^0.10.2"
 yapf = "^0.32.0"
 better-exceptions = "^0.3.3"
 bump2version = "^1.0.1"
 logging-utils-tddschn = "^0.1.8"
+
+[tool.poetry.group.dev.dependencies]
+typer = "^0.9.0"
+pytest = "^7.3.1"
+black = "^23.3.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-from .config import get_config
-from .types import ChangeDeviceEnum
-from .utils import (
+from nssurge_cli.config import get_config
+from nssurge_cli.types import ChangeDeviceEnum
+from nssurge_cli.utils import (
     typer_output_dict,
 )
 

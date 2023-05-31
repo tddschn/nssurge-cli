@@ -2,19 +2,26 @@
 
 from functools import cache
 from typing import Iterable
-from .config import get_config
-from .utils import typer_output_dict
-# use_local_nssurge_api_module()
-from nssurge_api import SurgeAPIClient
-from nssurge_api.types import (Policy, Policies, Proxies, PolicyGroups)
+from nssurge_cli.config import get_config
+from nssurge_cli.utils import typer_output_dict
+
 import typer
 import asyncio
-# from .completions import complete_policy
+from typing import Optional
+import typer
+from typing_extensions import Annotated
+
+# use_local_nssurge_api_module()
+from nssurge_api import SurgeAPIClient
+from nssurge_api.types import Policy, Policies, Proxies, PolicyGroups
 
 app = typer.Typer(name="policy")
 
+
 @cache
-async def get_policy(policy: Policy | None = None) -> dict:
+async def get_policy(
+    policy: Annotated[Optional[Policy], typer.Argument()] = None
+) -> dict:
     """
     Get all policies.
     """
@@ -22,66 +29,86 @@ async def get_policy(policy: Policy | None = None) -> dict:
         policy_dict = await (await client.get_policy(policy)).json()
         return policy_dict
 
+
 def complete_policy(incomplete: str) -> Iterable[tuple[str, str]]:
     """
     Complete policy names.
     """
     incomplete = incomplete.lower()
-    policy_dict: Policies = asyncio.run(get_policy()) # type: ignore
+    policy_dict: Policies = asyncio.run(get_policy())  # type: ignore
     # proxies: Proxies = policy_dict["proxies"]
     policy_groups: PolicyGroups = policy_dict["policy-groups"]
-    p2type_mapping = {p: 'policy group' for p in policy_groups if incomplete in p.lower()}
+    p2type_mapping = {
+        p: 'policy group' for p in policy_groups if incomplete in p.lower()
+    }
     # p2type_mapping = {p: 'proxy' for p in proxies if incomplete in p.lower()}
-    
+
     return p2type_mapping.items()
+
 
 def complete_policies(ctx: typer.Context, incomplete: str) -> Iterable[str]:
     """
     Complete policy names.
     """
     incomplete = incomplete.lower()
-    policy_dict: Policies = asyncio.run(get_policy()) # type: ignore
+    policy_dict: Policies = asyncio.run(get_policy())  # type: ignore
     policies_already_supplied = ctx.params.get("policies") or []
     policy_groups: PolicyGroups = policy_dict["policy-groups"]
-    return [p for p in policy_groups if incomplete in p.lower() and p not in policies_already_supplied]
+    return [
+        p
+        for p in policy_groups
+        if incomplete in p.lower() and p not in policies_already_supplied
+    ]
+
 
 def complete_proxies(ctx: typer.Context, incomplete: str) -> Iterable[str]:
     """
     Complete policy names.
     """
     incomplete = incomplete.lower()
-    policy_dict: Policies = asyncio.run(get_policy()) # type: ignore
+    policy_dict: Policies = asyncio.run(get_policy())  # type: ignore
     policies_already_supplied = ctx.params.get("policies") or []
     policy_groups: PolicyGroups = policy_dict["proxies"]
-    return [p for p in policy_groups if incomplete in p.lower() and p not in policies_already_supplied]
+    return [
+        p
+        for p in policy_groups
+        if incomplete in p.lower() and p not in policies_already_supplied
+    ]
+
 
 def complete_proxy(incomplete: str) -> Iterable[tuple[str, str]]:
     """
     Complete policy names.
     """
     incomplete = incomplete.lower()
-    policy_dict: Policies = asyncio.run(get_policy()) # type: ignore
+    policy_dict: Policies = asyncio.run(get_policy())  # type: ignore
     proxies: Proxies = policy_dict["proxies"]
     # policy_groups: PolicyGroups = policy_dict["policy-groups"]
     # p2type_mapping = {p: 'policy group' for p in policy_groups if incomplete in p.lower()}
     p2type_mapping = {p: 'proxy' for p in proxies if incomplete in p.lower()}
-    
+
     return p2type_mapping.items()
+
 
 def complete_policy_and_proxy(incomplete: str) -> Iterable[tuple[str, str]]:
     """
     Complete policy names.
     """
     incomplete = incomplete.lower()
-    policy_dict: Policies = asyncio.run(get_policy()) # type: ignore
+    policy_dict: Policies = asyncio.run(get_policy())  # type: ignore
     proxies: Proxies = policy_dict["proxies"]
     policy_groups: PolicyGroups = policy_dict["policy-groups"]
-    p2type_mapping = {p: 'policy group' for p in policy_groups if incomplete in p.lower()}
+    p2type_mapping = {
+        p: 'policy group' for p in policy_groups if incomplete in p.lower()
+    }
     p2type_mapping.update({p: 'proxy' for p in proxies if incomplete in p.lower()})
-    
+
     return p2type_mapping.items()
 
-def complete_policy_for_policy_group(ctx: typer.Context, incomplete: str) -> Iterable[str]:
+
+def complete_policy_for_policy_group(
+    ctx: typer.Context, incomplete: str
+) -> Iterable[str]:
     """
     Complete policy names.
     """
@@ -95,13 +122,16 @@ def complete_policy_for_policy_group(ctx: typer.Context, incomplete: str) -> Ite
         return []
     policies_str = policy_rule_for_group.split('=')[1].strip()
     import re
+
     policies: list[str] = re.split(r'\s*,\s*', policies_str)
 
     return [p for p in policies if incomplete.lower() in p.lower()]
 
+
 # @app.command("policy")
 @app.callback(invoke_without_command=True)
-def policy(ctx: typer.Context,
+def policy(
+    ctx: typer.Context,
     policy: Policy = typer.Argument(None, autocompletion=complete_policy),
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
@@ -125,4 +155,3 @@ def policy(ctx: typer.Context,
             raise typer.Exit(1)
         # return policy_dict
     typer_output_dict(policy_dict, output_json, pretty_print, rich_print)  # type: ignore
-

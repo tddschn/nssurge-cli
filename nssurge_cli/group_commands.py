@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-from .config import get_config
-from .utils import (
+from nssurge_cli.config import get_config
+from nssurge_cli.utils import (
     typer_output_dict,
 )
 
@@ -12,7 +12,7 @@ from nssurge_api.types import (
 )
 import typer
 import asyncio
-from .policy_commands import complete_policy, complete_policy_for_policy_group
+from nssurge_cli.policy_commands import complete_policy, complete_policy_for_policy_group
 
 app = typer.Typer(name="group")
 

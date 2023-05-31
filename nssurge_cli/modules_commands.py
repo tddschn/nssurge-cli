@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 from nssurge_cli.cap_commands import s2b
-from .config import get_config
-from .types import OnOffToggleEnum
-from .utils import (
+from nssurge_cli.config import get_config
+from nssurge_cli.types import OnOffToggleEnum
+from nssurge_cli.utils import (
     typer_output_dict,
     s2b
 )

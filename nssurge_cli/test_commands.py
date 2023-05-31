@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-from .config import get_config
-from .utils import typer_output_dict
+from nssurge_cli.config import get_config
+from nssurge_cli.utils import typer_output_dict
 # use_local_nssurge_api_module()
 from nssurge_api import SurgeAPIClient
 from nssurge_api.types import Proxy
 import typer
 import asyncio
-from .policy_commands import complete_proxies
+from nssurge_cli.policy_commands import complete_proxies
 
 app = typer.Typer(name="test")
 

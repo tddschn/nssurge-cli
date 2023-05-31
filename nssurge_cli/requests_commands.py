@@ -2,8 +2,8 @@
 
 from pathlib import Path
 from typing import Iterable
-from .config import get_config
-from .utils import typer_output_dict
+from nssurge_cli.config import get_config
+from nssurge_cli.utils import typer_output_dict
 # use_local_nssurge_api_module()
 from nssurge_api import SurgeAPIClient
 from nssurge_api.types import RequestsType

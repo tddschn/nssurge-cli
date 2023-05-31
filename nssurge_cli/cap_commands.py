@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-from .config import get_config
-from .types import (OnOffToggleEnum)
-from .utils import (bool2color, get_cap_state, s2b)
+from nssurge_cli.config import get_config
+from nssurge_cli.types import (OnOffToggleEnum)
+from nssurge_cli.utils import (bool2color, get_cap_state, s2b)
 # use_local_nssurge_api_module()
 from nssurge_api import SurgeAPIClient
 from nssurge_api.types import Capability
