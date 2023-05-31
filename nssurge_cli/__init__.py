@@ -1,5 +1,5 @@
 __version__ = "2.0.8"
-__app_name__ = "NSSurge CLI"
+__app_name__: str = "NSSurge CLI"
 
 try:
     from logging_utils_tddschn import get_logger
