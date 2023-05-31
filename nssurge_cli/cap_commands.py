@@ -21,9 +21,9 @@ async def get_set_cap(
         state_orig = await get_cap_state(client, capability)
         match on_off:
             case OnOffToggleEnum.on | OnOffToggleEnum.off:
-                set_resp = await client.set_cap(capability, s2b(on_off))
+                await client.set_cap(capability, s2b(on_off))
             case OnOffToggleEnum.toggle:
-                set_resp = await client.set_cap(capability, not state_orig)
+                await client.set_cap(capability, not state_orig)
             case _:
                 return state_orig
         state_new = await get_cap_state(client, capability)

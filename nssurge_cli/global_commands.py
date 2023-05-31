@@ -56,7 +56,7 @@ def global_command(
     # typer.secho(f"Warning: the get API is broken on the Surge side")
     # dimmed style
     typer.secho(
-        f"Warning: the get API is broken on the Surge side, tested on Surge for Mac 4.5.0",
+        "Warning: the get API is broken on the Surge side, tested on Surge for Mac 4.5.0",
         dim=True,
         err=True,
     )

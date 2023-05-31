@@ -20,9 +20,9 @@ async def flush_dns():
 
 @app.command("flush")
 def flush_dns_command():
-    resp = asyncio.run(flush_dns())
+    asyncio.run(flush_dns())
     # resp is empty
-    typer.secho(f'Flushed DNS cache', fg=typer.colors.GREEN)
+    typer.secho('Flushed DNS cache', fg=typer.colors.GREEN)
 
 
 async def get_dns():

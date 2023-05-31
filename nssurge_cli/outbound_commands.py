@@ -16,7 +16,7 @@ async def get_set_outbound(
     """
     async with SurgeAPIClient(*get_config()) as client:
         if outbound_mode is not None:
-            set_resp = await client.set_outbound_mode(outbound_mode)
+            await client.set_outbound_mode(outbound_mode)
         new_outbound_mode = (await (await client.get_outbound_mode()).json())["mode"]
         match new_outbound_mode:
             case 'direct':

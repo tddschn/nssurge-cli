@@ -2,6 +2,10 @@
 
 from nssurge_cli.config import get_config
 from nssurge_cli.utils import typer_output_dict
+
+from typing import Optional
+from typing_extensions import Annotated
+
 # use_local_nssurge_api_module()
 from nssurge_api import SurgeAPIClient
 from nssurge_api.types import Proxy
@@ -11,7 +15,10 @@ from nssurge_cli.policy_commands import complete_proxies
 
 app = typer.Typer(name="test")
 
-async def test_proxies(policies: list[Proxy], url: str | None = None) -> dict:
+
+async def test_proxies(
+    policies: list[Proxy], url: Annotated[Optional[str], typer.Argument()] = None
+) -> dict:
     """
     Test proxies
     """
@@ -30,7 +37,14 @@ async def test_proxies(policies: list[Proxy], url: str | None = None) -> dict:
 
 # @app.command("test")
 @app.callback(invoke_without_command=True)
-def test_proxies_command(ctx: typer.Context, policies: list[Proxy] = typer.Argument(..., autocompletion=complete_proxies), url: str | None = None, output_json: bool = typer.Option(False, "--json", "-j"), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
+def test_proxies_command(
+    ctx: typer.Context,
+    policies: list[Proxy] = typer.Argument(..., autocompletion=complete_proxies),
+    url: Annotated[Optional[str], typer.Argument()] = None,
+    output_json: bool = typer.Option(False, "--json", "-j"),
+    pretty_print: bool = typer.Option(False, "--pretty", "-p"),
+    rich_print: bool = typer.Option(False, "--rich", "-r"),
+):
     """
     Test proxies
     """
