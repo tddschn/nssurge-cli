@@ -4,13 +4,15 @@ from pathlib import Path
 from typing import Iterable
 from nssurge_cli.config import get_config
 from nssurge_cli.utils import typer_output_dict
+
 # use_local_nssurge_api_module()
-from nssurge_api import SurgeAPIClient
+from nssurge_api.api import SurgeAPIClient
 from nssurge_api.types import RequestsType
 import typer
 import asyncio
 
 app = typer.Typer(name="requests")
+
 
 async def get_requests(requests_type: RequestsType = RequestsType.recent):
     """
@@ -24,24 +26,28 @@ async def get_requests(requests_type: RequestsType = RequestsType.recent):
         # 	raise typer.Exit(1)
         return req_dict
 
+
 def complete_requests_id(incomplete: str) -> Iterable[tuple[str, str]]:
     """
     Complete requests ids.
     """
     incomplete = incomplete.lower()
-    req_dict: dict = asyncio.run(get_requests(requests_type=RequestsType.active)) # type: ignore
+    req_dict: dict = asyncio.run(get_requests(requests_type=RequestsType.active))  # type: ignore
     reqs: list[dict] = req_dict["requests"]
     for req in reqs:
         info = Path(req['processPath']).name
         info += ' | '
-        info += ' | '.join(map(lambda x: req.get(x, ''), ['status', 'policyName', 'rule', 'URL']))
+        info += ' | '.join(
+            map(lambda x: req.get(x, ''), ['status', 'policyName', 'rule', 'URL'])
+        )
         if incomplete in str(req['id']) or incomplete in info.lower():
             yield (str(req['id']), info)
-    
+
 
 # @app.command("requests")
 @app.callback(invoke_without_command=True)
-def requests(ctx: typer.Context,
+def requests(
+    ctx: typer.Context,
     requests_type: RequestsType = typer.Option(RequestsType.recent, '--type', '-t'),
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
@@ -71,7 +77,11 @@ async def kill_request(request_id: int):
 
 
 @app.command("kill")
-def kill_request_command(request_id: int = typer.Argument(..., help="Request ID", autocompletion=complete_requests_id)):
+def kill_request_command(
+    request_id: int = typer.Argument(
+        ..., help="Request ID", autocompletion=complete_requests_id
+    )
+):
     """
     Kill requests
     """
@@ -84,4 +94,3 @@ def kill_request_command(request_id: int = typer.Argument(..., help="Request ID"
         # failed
         typer.secho(f'Failed to kill request {request_id}', fg=typer.colors.RED)
         typer.secho(f'Error: {error}', fg=typer.colors.RED)
-

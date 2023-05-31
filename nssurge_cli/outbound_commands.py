@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 from nssurge_cli.config import get_config
+
 # use_local_nssurge_api_module()
-from nssurge_api import SurgeAPIClient
+from nssurge_api.api import SurgeAPIClient
 from nssurge_api.types import OutboundMode
 import typer
 import asyncio
 
 app = typer.Typer(name="outbound")
+
 
 async def get_set_outbound(
     outbound_mode: OutboundMode = typer.Argument(None),

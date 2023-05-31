@@ -2,12 +2,15 @@
 
 from nssurge_cli.config import get_config
 from nssurge_cli.utils import typer_output_dict
+
 # use_local_nssurge_api_module()
-from nssurge_api import SurgeAPIClient
+from nssurge_api.api import SurgeAPIClient
 from nssurge_api.types import LogLevel
 import typer
 import asyncio
+
 # from nssurge_cli.cli import app
+
 
 async def stop_engine():
     """
@@ -126,12 +129,14 @@ async def set_log_level(log_level: LogLevel):
         # 	raise typer.Exit(1)
         return log_level_dict
 
+
 # doesn't seem to work
 # def complete_loglevel(incomplete: str):
 #     """
 #     Complete log level
 #     """
 #     return [level.value for level in LogLevel if incomplete.lower() in level.value]
+
 
 # @app.command("loglevel")
 def set_log_level_command(log_level: LogLevel = typer.Argument(..., help="Log level")):

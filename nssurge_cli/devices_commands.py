@@ -7,7 +7,7 @@ from nssurge_cli.utils import (
 )
 
 # use_local_nssurge_api_module()
-from nssurge_api import SurgeAPIClient
+from nssurge_api.api import SurgeAPIClient
 from nssurge_api.types import (
     ChangeDeviceRequest,
 )
@@ -22,21 +22,28 @@ async def get_devices():
         devices_resp = await client.get_devices()
         return await devices_resp.json()
 
+
 def complete_devices(incomplete: str):
     """
     Complete device names.
     """
     incomplete = incomplete.lower()
-    devices_dict = asyncio.run(get_devices()) # type: ignore
+    devices_dict = asyncio.run(get_devices())  # type: ignore
     devices: list[dict] = devices_dict['devices']
     for device in devices:
-        info = ' | '.join(map(lambda x: str(device.get(x)), ['name', 'displayIPAddress', 'totalBytes']))
-        id: str = device.get('identifier') # type: ignore
+        info = ' | '.join(
+            map(
+                lambda x: str(device.get(x)), ['name', 'displayIPAddress', 'totalBytes']
+            )
+        )
+        id: str = device.get('identifier')  # type: ignore
         if incomplete in id or incomplete in info.lower():
             yield id, info
 
+
 @app.callback(invoke_without_command=True)
-def devices(ctx: typer.Context,
+def devices(
+    ctx: typer.Context,
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
     rich_print: bool = typer.Option(False, "--rich", "-r"),
@@ -55,10 +62,19 @@ async def get_device_icon(icon_id):
 
 
 @app.command("icon")
-def icon(icon_id, output_json: bool = typer.Option(False, "--json", "-j"), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
+def icon(
+    icon_id,
+    output_json: bool = typer.Option(False, "--json", "-j"),
+    pretty_print: bool = typer.Option(False, "--pretty", "-p"),
+    rich_print: bool = typer.Option(False, "--rich", "-r"),
+):
     icon_resp = asyncio.run(get_device_icon(icon_id))
     typer_output_dict(icon_resp, output_json, pretty_print, rich_print)
-    typer.secho('Warning: the Surge API used is broken on Surge for mac 4.5.0', dim=True, err=True)
+    typer.secho(
+        'Warning: the Surge API used is broken on Surge for mac 4.5.0',
+        dim=True,
+        err=True,
+    )
 
 
 async def change_device(req: ChangeDeviceRequest):
@@ -66,8 +82,13 @@ async def change_device(req: ChangeDeviceRequest):
         resp = await client.change_device(req)
         return await resp.json()
 
+
 @app.command('set')
-def set_device_command(physical_address: str = typer.Argument(..., autocompletion=complete_devices), field: ChangeDeviceEnum = typer.Argument(...), value: str = typer.Argument(...)):
+def set_device_command(
+    physical_address: str = typer.Argument(..., autocompletion=complete_devices),
+    field: ChangeDeviceEnum = typer.Argument(...),
+    value: str = typer.Argument(...),
+):
     req = ChangeDeviceRequest(
         physicalAddress=physical_address,
     )
@@ -77,9 +98,14 @@ def set_device_command(physical_address: str = typer.Argument(..., autocompletio
     # typer_output_dict(resp_dict)
     if not resp_dict:
         # success
-        typer.secho(f'Successfully set {field.value} to {value} for {physical_address}', fg=typer.colors.GREEN)
+        typer.secho(
+            f'Successfully set {field.value} to {value} for {physical_address}',
+            fg=typer.colors.GREEN,
+        )
     else:
         # failure
-        typer.secho(f'Failed to set {field.value} to {value} for {physical_address}', fg=typer.colors.RED)
+        typer.secho(
+            f'Failed to set {field.value} to {value} for {physical_address}',
+            fg=typer.colors.RED,
+        )
         typer.secho(f'Error: {resp_dict["error"]}', fg=typer.colors.RED)
-

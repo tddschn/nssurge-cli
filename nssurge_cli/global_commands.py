@@ -3,7 +3,7 @@
 from nssurge_cli.config import get_config
 
 # use_local_nssurge_api_module()
-from nssurge_api import SurgeAPIClient
+from nssurge_api.api import SurgeAPIClient
 from nssurge_api.types import Policy
 import typer
 import asyncio

@@ -5,14 +5,17 @@ from nssurge_cli.utils import (
 )
 
 # use_local_nssurge_api_module()
-from nssurge_api import SurgeAPIClient
+from nssurge_api.api import SurgeAPIClient
 from nssurge_api.types import (
     Policy,
     PolicyGroup,
 )
 import typer
 import asyncio
-from nssurge_cli.policy_commands import complete_policy, complete_policy_for_policy_group
+from nssurge_cli.policy_commands import (
+    complete_policy,
+    complete_policy_for_policy_group,
+)
 
 app = typer.Typer(name="group")
 
@@ -26,15 +29,21 @@ async def get_policy_group(policy_group: PolicyGroup = typer.Argument(None)) -> 
             return await (await client.get_policy_group(policy_group)).json()
         except Exception as e:
             typer.secho(f"Error: {e}", err=True)
-            typer.secho('Using proxy as an arg causes Surge for Mac to crash as of version 4.5.0', err=True, fg='red')
+            typer.secho(
+                'Using proxy as an arg causes Surge for Mac to crash as of version 4.5.0',
+                err=True,
+                fg='red',
+            )
             return {}
 
 
 # @app.command('group')
 # @app.callback(invoke_without_command=True)
 @app.command('policy')
-def policy_group(# ctx: typer.Context,
-    policy_group: PolicyGroup = typer.Argument(..., help="Policy group name", autocompletion=complete_policy),
+def policy_group(  # ctx: typer.Context,
+    policy_group: PolicyGroup = typer.Argument(
+        ..., help="Policy group name", autocompletion=complete_policy
+    ),
     # output_json: bool = typer.Option(False, "--json", "-j"),
     # pretty_print: bool = typer.Option(False, "--pretty", "-p"),
     # rich_print: bool = typer.Option(False, "--rich", "-r"),
@@ -83,7 +92,14 @@ async def select_group(policy_group: PolicyGroup, policy: Policy):
 
 
 @app.command("select")
-def select_group_command(policy: PolicyGroup = typer.Argument(..., help='Policy group name', autocompletion=complete_policy), policy_selected: Policy = typer.Argument(..., help='Policy name', autocompletion=complete_policy_for_policy_group)):
+def select_group_command(
+    policy: PolicyGroup = typer.Argument(
+        ..., help='Policy group name', autocompletion=complete_policy
+    ),
+    policy_selected: Policy = typer.Argument(
+        ..., help='Policy name', autocompletion=complete_policy_for_policy_group
+    ),
+):
     """
     Select a policy group.
     """
@@ -101,7 +117,9 @@ async def test_policy_group(policy_group: PolicyGroup) -> dict:
 
 @app.command("test")
 def test_policy_group_command(
-    policy_group: PolicyGroup = typer.Argument(..., help="Policy group name", autocompletion=complete_policy),
+    policy_group: PolicyGroup = typer.Argument(
+        ..., help="Policy group name", autocompletion=complete_policy
+    ),
     output_json: bool = typer.Option(False, "--json", "-j"),
     pretty_print: bool = typer.Option(False, "--pretty", "-p"),
     rich_print: bool = typer.Option(False, "--rich", "-r"),
@@ -111,6 +129,7 @@ def test_policy_group_command(
     """
     test_dict = asyncio.run(test_policy_group(policy_group))
     typer_output_dict(test_dict, output_json, pretty_print, rich_print)
+
 
 @app.callback()
 def group_command_callback():

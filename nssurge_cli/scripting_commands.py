@@ -6,7 +6,7 @@ from nssurge_cli.utils import (
 )
 
 # use_local_nssurge_api_module()
-from nssurge_api import SurgeAPIClient
+from nssurge_api.api import SurgeAPIClient
 from nssurge_api.types import (
     EvalScriptMockRequest,
 )
@@ -23,7 +23,12 @@ async def get_scripts():
 
 
 @app.callback(invoke_without_command=True)
-def scripts(ctx: typer.Context, output_json: bool = typer.Option(False, "--json", '-j'), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
+def scripts(
+    ctx: typer.Context,
+    output_json: bool = typer.Option(False, "--json", '-j'),
+    pretty_print: bool = typer.Option(False, "--pretty", "-p"),
+    rich_print: bool = typer.Option(False, "--rich", "-r"),
+):
     """Get all scripts"""
     if ctx.invoked_subcommand is not None:
         return

@@ -6,7 +6,7 @@ from nssurge_cli.utils import (
 )
 
 # use_local_nssurge_api_module()
-from nssurge_api import SurgeAPIClient
+from nssurge_api.api import SurgeAPIClient
 import typer
 import asyncio
 
@@ -32,7 +32,12 @@ async def get_dns():
 
 
 @app.callback(invoke_without_command=True)
-def get_dns_command(ctx: typer.Context, output_json: bool = typer.Option(False, "--json", "-j"), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
+def get_dns_command(
+    ctx: typer.Context,
+    output_json: bool = typer.Option(False, "--json", "-j"),
+    pretty_print: bool = typer.Option(False, "--pretty", "-p"),
+    rich_print: bool = typer.Option(False, "--rich", "-r"),
+):
     """Manage DNS"""
     if ctx.invoked_subcommand is not None:
         return
@@ -47,6 +52,10 @@ async def test_dns():
 
 
 @app.command("test")
-def test_dns_command(output_json: bool = typer.Option(False, "--json", "-j"), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
+def test_dns_command(
+    output_json: bool = typer.Option(False, "--json", "-j"),
+    pretty_print: bool = typer.Option(False, "--pretty", "-p"),
+    rich_print: bool = typer.Option(False, "--rich", "-r"),
+):
     dns = asyncio.run(test_dns())
     typer_output_dict(dns, output_json, pretty_print, rich_print)

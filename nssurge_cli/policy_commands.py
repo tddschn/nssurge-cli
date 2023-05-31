@@ -12,7 +12,7 @@ import typer
 from typing_extensions import Annotated
 
 # use_local_nssurge_api_module()
-from nssurge_api import SurgeAPIClient
+from nssurge_api.api import SurgeAPIClient
 from nssurge_api.types import Policy, Policies, Proxies, PolicyGroups
 
 app = typer.Typer(name="policy")

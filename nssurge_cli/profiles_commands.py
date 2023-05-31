@@ -7,7 +7,7 @@ from nssurge_cli.utils import (
 )
 
 # use_local_nssurge_api_module()
-from nssurge_api import SurgeAPIClient
+from nssurge_api.api import SurgeAPIClient
 from nssurge_api.types import (
     Profile,
 )
@@ -24,7 +24,13 @@ async def get_active_profile(mask_password: bool = True) -> dict:
 
 
 @app.callback(invoke_without_command=True)
-def active_profile(ctx: typer.Context, mask_password: bool = True, output_json: bool = typer.Option(False, "--json", '-j'), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
+def active_profile(
+    ctx: typer.Context,
+    mask_password: bool = True,
+    output_json: bool = typer.Option(False, "--json", '-j'),
+    pretty_print: bool = typer.Option(False, "--pretty", "-p"),
+    rich_print: bool = typer.Option(False, "--rich", "-r"),
+):
     """Get active profile"""
     if ctx.invoked_subcommand is not None:
         return
@@ -57,6 +63,7 @@ async def list_profiles():
         profiles = await client.get_profiles()
         return await profiles.json()
 
+
 def complete_profiles(incomplete: str) -> Iterable[Profile]:
     profiles_dict = asyncio.run(list_profiles())
     profiles: list[Profile] = profiles_dict['profiles']
@@ -65,10 +72,13 @@ def complete_profiles(incomplete: str) -> Iterable[Profile]:
     #         yield profile
     return [profile for profile in profiles if incomplete.lower() in profile.lower()]
 
-    
 
 @app.command("list")
-def list_profiles_command(output_json: bool = typer.Option(False, "--json", '-j'), pretty_print: bool = typer.Option(False, "--pretty", "-p"), rich_print: bool = typer.Option(False, "--rich", "-r")):
+def list_profiles_command(
+    output_json: bool = typer.Option(False, "--json", '-j'),
+    pretty_print: bool = typer.Option(False, "--pretty", "-p"),
+    rich_print: bool = typer.Option(False, "--rich", "-r"),
+):
     profiles = asyncio.run(list_profiles())
     typer_output_dict(profiles, output_json, pretty_print, rich_print)
 
@@ -80,7 +90,11 @@ async def validate_profile(profile_name: Profile):
 
 
 @app.command("validate")
-def validate_profile_command(profile_name: Profile = typer.Argument(..., help="Profile name", autocompletion=complete_profiles)):
+def validate_profile_command(
+    profile_name: Profile = typer.Argument(
+        ..., help="Profile name", autocompletion=complete_profiles
+    )
+):
     profile = asyncio.run(validate_profile(profile_name))
     if profile['error'] is None:
         typer.secho(f"Profile {profile_name} is valid", fg='green')
@@ -88,5 +102,3 @@ def validate_profile_command(profile_name: Profile = typer.Argument(..., help="P
         typer.secho(f"Profile {profile_name} is invalid", fg='red')
         typer.secho(profile['error'], fg='red')
     # typer_output_dict(profile)
-
-

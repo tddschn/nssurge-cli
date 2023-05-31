@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 from nssurge_cli.config import get_config
-from nssurge_cli.types import (OnOffToggleEnum)
-from nssurge_cli.utils import (bool2color, get_cap_state, s2b)
+from nssurge_cli.types import OnOffToggleEnum
+from nssurge_cli.utils import bool2color, get_cap_state, s2b
+
 # use_local_nssurge_api_module()
-from nssurge_api import SurgeAPIClient
+from nssurge_api.api import SurgeAPIClient
 from nssurge_api.types import Capability
 import typer
 import asyncio
 
 
 app = typer.Typer(name='cap')
+
 
 async def get_set_cap(
     capability: Capability, on_off: OnOffToggleEnum = typer.Argument(None)
@@ -32,7 +34,10 @@ async def get_set_cap(
 
 # @app.command("cap")
 @app.callback(invoke_without_command=True)
-def cap(capability: Capability = typer.Argument(None), on_off: OnOffToggleEnum = typer.Argument(None)):
+def cap(
+    capability: Capability = typer.Argument(None),
+    on_off: OnOffToggleEnum = typer.Argument(None),
+):
     """
     Get or set a capability.
     """
@@ -76,4 +81,3 @@ def caps():
         length = 16
         state_colored = typer.style(f"{state}", fg=bool2color(state))
         typer.secho(f"{capability:>{length}}: {state_colored}")
-
