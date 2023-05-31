@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nssurge-cli"
-version = "2.0.6"
+version = "2.0.7"
 description = "NSSurge CLI"
 authors = ["Xinyuan Chen <45612704+tddschn@users.noreply.github.com>"]
 license = "MIT"
