@@ -578,14 +578,14 @@ files = [
 
 [[package]]
 name = "nssurge-api"
-version = "0.2.10"
-description = ""
+version = "0.2.13"
+description = "NSSurge HTTP API for Python"
 category = "main"
 optional = false
-python-versions = ">=3.10,<4.0"
+python-versions = ">=3.11,<4.0"
 files = [
-    {file = "nssurge-api-0.2.10.tar.gz", hash = "sha256:59c088c3770496d4ed9d339e298a071b943c7c53433daa470f8d2fae12de66f5"},
-    {file = "nssurge_api-0.2.10-py3-none-any.whl", hash = "sha256:7a2ef2a3cae257c7d9dfa117565ca48785d1c633618c5ade621fe763ef7636f8"},
+    {file = "nssurge_api-0.2.13-py3-none-any.whl", hash = "sha256:a6abdd11c75791c5b95183215bfdcb744588ced3a82d16f0dcb4c1a8d4053edb"},
+    {file = "nssurge_api-0.2.13.tar.gz", hash = "sha256:461d81e751e33de54b18c5356783b41fd6d743ac24573d4c54d1bfac54649b48"},
 ]
 
 [package.dependencies]
@@ -927,4 +927,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11, <4.0"
-content-hash = "8d1efcc7721f29e34a7f8482a207f73160ce48d4e1174ac87ed31408b7ebda8e"
+content-hash = "c198800396935b9bb83ede9ce48d03f63079037652fc85566257e1c2d9539893"
