@@ -2,7 +2,10 @@
 
 from pathlib import Path
 import typer
-from aiohttp import ClientResponse
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from aiohttp import ClientResponse
 from nssurge_api import SurgeAPIClient
 from nssurge_api.types import (
     Capability,
@@ -15,7 +18,7 @@ def s2b(s: str) -> bool:
     return bool(strtobool(s))
 
 
-async def parse_cap_get(resp: ClientResponse) -> bool:
+async def parse_cap_get(resp: 'ClientResponse') -> bool:
     if not resp.status == 200:
         raise ValueError(f"Unexpected status code: {resp.status}")
     return (await resp.json())["enabled"]
