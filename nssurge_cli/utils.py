@@ -9,6 +9,8 @@ from nssurge_api.types import (
 )
 
 from utils_tddschn.utils import strtobool
+
+
 def s2b(s: str) -> bool:
     return bool(strtobool(s))
 
@@ -68,4 +70,4 @@ def typer_output_dict(
 
 # typer_output_dict_typer_options = (    output_json: bool = typer.Option(False, "--json", "-j"),
 #     pretty_print: bool = typer.Option(False, "--pretty", "-p"),)
-rich_print: bool = (typer.Option(False, "--rich", "-r"),)
+rich_print: bool = (typer.Option(False, "--rich", "-r"),)  # type: ignore

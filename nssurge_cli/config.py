@@ -20,6 +20,7 @@ def config_callback():
     Manage configuration
     """
 
+
 @cache
 def read_config(config_path: Path = DEFAULT_CONFIG_PATH) -> dict:
     """
@@ -30,9 +31,15 @@ def read_config(config_path: Path = DEFAULT_CONFIG_PATH) -> dict:
     config = configparser.ConfigParser()
     config.read(config_path)
     return {
-        "SURGE_HTTP_API_ENDPOINT": config.get("DEFAULT", "SURGE_HTTP_API_ENDPOINT", fallback=DEFAULT_SURGE_HTTP_API_ENDPOINT),
+        "SURGE_HTTP_API_ENDPOINT": config.get(
+            "DEFAULT",
+            "SURGE_HTTP_API_ENDPOINT",
+            fallback=DEFAULT_SURGE_HTTP_API_ENDPOINT,
+        ),
         "SURGE_HTTP_API_KEY": config["DEFAULT"]["SURGE_HTTP_API_KEY"],
-        "TRUST_ENV": config.getboolean("DEFAULT", "TRUST_ENV", fallback=DEFAULT_TRUST_ENV),
+        "TRUST_ENV": config.getboolean(
+            "DEFAULT", "TRUST_ENV", fallback=DEFAULT_TRUST_ENV
+        ),
     }
 
 
@@ -51,7 +58,7 @@ def write_example_config(
     import configparser
 
     config = configparser.ConfigParser()
-    config["DEFAULT"] = {
+    config["DEFAULT"] = {  # type: ignore
         "SURGE_HTTP_API_ENDPOINT": DEFAULT_SURGE_HTTP_API_ENDPOINT,
         "SURGE_HTTP_API_KEY": "",
         "TRUST_ENV": DEFAULT_TRUST_ENV,
